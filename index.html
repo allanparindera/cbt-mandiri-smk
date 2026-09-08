@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulasi CBT Mandiri - SMK</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --surface: #0f172a;
+      --surface-subtle: #1e293b;
+      --border: #334155;
+      --border-strong: #475569;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-light: #1e3a8a;
+      --success: #16a34a;
+      --success-bg: #052e16;
+      --danger: #dc2626;
+      --danger-bg: #450a0a;
+      --warning: #d97706;
+      --warning-bg: #451a03;
+      --purple: #9333ea;
+      --purple-bg: #3b0764;
+      --radius: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Topbar */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand span {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      color: var(--text);
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Views */
+    .view {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* Catalog Screen */
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 16px;
+      width: 100%;
+    }
+
+    .catalog-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .catalog-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .exam-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .exam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .exam-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .exam-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .exam-card-meta span {
+      background: var(--surface-subtle);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .exam-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:active {
+      background: var(--accent-hover);
+    }
+
+    .btn-subtle {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-muted);
+    }
+
+    .btn-subtle:active {
+      background: var(--surface-subtle);
+    }
+
+    .btn-danger {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #f87171;
+    }
+
+    /* Question Screen */
+    .exam-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .exam-progress {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .exam-type-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    .pill-pg {
+      background: #1e3a8a;
+      color: #93c5fd;
+      border: 1px solid #3b82f6;
+    }
+
+    .pill-esai {
+      background: #4a1d96;
+      color: #d8b4fe;
+      border: 1px solid #9333ea;
+    }
+
+    .question-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      max-width: 640px;
+      margin: 0 auto;
+      width: 100%;
+      padding-bottom: 90px;
+    }
+
+    .q-number-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .q-text {
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 16px;
+      user-select: text;
+    }
+
+    /* Options */
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+
+    .option-item.selected {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .option-key {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .option-item.selected .option-key {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .option-content {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--text);
+      padding-top: 3px;
+      user-select: text;
+    }
+
+    /* Esai Box */
+    .esai-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .esai-notice {
+      background: rgba(147, 51, 234, 0.12);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      color: #d8b4fe;
+      line-height: 1.4;
+    }
+
+    .esai-textarea {
+      width: 100%;
+      min-height: 160px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      user-select: text;
+    }
+
+    .esai-textarea:focus {
+      border-color: #9333ea;
+      box-shadow: 0 0 0 1px #9333ea;
+    }
+
+    .esai-counter {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    /* Bottom Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 40;
+    }
+
+    /* Grid Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+    }
+
+    .drawer-overlay.active {
+      display: flex;
+    }
+
+    .drawer-content {
+      background: var(--surface);
+      border-top: 1px solid var(--border-strong);
+      width: 100%;
+      max-height: 80vh;
+      border-radius: 12px 12px 0 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .grid-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .num-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .num-item {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .num-item.answered {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .num-item.answered.esai-type {
+      background: var(--purple-bg);
+      border-color: var(--purple);
+    }
+
+    .num-item.current {
+      border: 2px solid #fff;
+    }
+
+    .num-item-choice {
+      font-size: 10px;
+      font-weight: 600;
+      color: #93c5fd;
+      margin-top: 2px;
+    }
+
+    /* Preview & Result Views */
+    .preview-container, .result-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 16px 80px 16px;
+      width: 100%;
+    }
+
+    .summary-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .summary-val {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .summary-lbl {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .preview-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preview-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .preview-q-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .preview-q-text {
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+      margin-top: 2px;
+    }
+
+    .preview-ans-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .preview-ans-badge.filled {
+      background: #1e3a8a;
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+
+    .preview-ans-badge.filled-esai {
+      background: #4a1d96;
+      border-color: #9333ea;
+      color: #e9d5ff;
+    }
+
+    .preview-ans-badge.empty {
+      background: rgba(220, 38, 38, 0.1);
+      border-color: var(--danger);
+      color: #f87171;
+    }
+
+    /* Result */
+    .score-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .score-val {
+      font-size: 44px;
+      font-weight: 800;
+      color: #4ade80;
+      letter-spacing: -1px;
+    }
+
+    .score-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .score-formula-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .detail-q {
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 500;
+      color: #fff;
+      user-select: text;
+    }
+
+    .detail-ans {
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 8px 10px;
+      border-radius: 4px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      user-select: text;
+    }
+
+    .detail-ans.correct {
+      background: rgba(22, 163, 74, 0.1);
+      border-color: var(--success);
+      color: #86efac;
+    }
+
+    .detail-ans.wrong {
+      background: rgba(220, 38, 38, 0.1);
+      border-color: var(--danger);
+      color: #fca5a5;
+    }
+
+    .detail-ans.rubrik {
+      background: rgba(147, 51, 234, 0.1);
+      border-color: var(--purple);
+      color: #e9d5ff;
+    }
+
+    /* Admin Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .form-control {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand">
+      <span id="headerTitle">SIMULASI CBT</span>
+      <span class="badge" id="headerBadge">KATALOG</span>
+    </div>
+    <div id="headerActions">
+      <button class="btn btn-subtle" onclick="openAdminModal()">+ Tambah Mapel</button>
+    </div>
+  </header>
+
+  <!-- VIEW 1: KATALOG MAPEL -->
+  <main id="viewCatalog" class="view active">
+    <div class="container">
+      <div class="catalog-title">Pilih Simulasi Soal</div>
+      <div class="catalog-desc">Kerjakan soal satu per satu di HP. Pilihan Ganda diacak dinamis setiap sesi, dilengkapi 5 butir soal esai analitis.</div>
+      <div class="exam-list" id="examList">
+        <!-- Render via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 2: PENGERJAAN SOAL (1 PER 1) -->
+  <main id="viewExam" class="view">
+    <div class="exam-header">
+      <div>
+        <span class="exam-progress" id="examProgressText">Soal 1 dari 40</span>
+        <span class="exam-type-pill pill-pg" id="examTypePill">PG</span>
+      </div>
+      <button class="btn btn-subtle exam-sheet-toggle" onclick="openDrawer()">Grid Soal ☰</button>
+    </div>
+
+    <div class="question-wrapper">
+      <div class="q-number-label" id="qNumberLabel">
+        <span>SOAL NO. 1</span>
+      </div>
+      <div class="q-text" id="qText">Teks soal akan tampil di sini...</div>
+
+      <!-- Container PG -->
+      <div class="option-list" id="optionList">
+        <!-- Option Items A-E -->
+      </div>
+
+      <!-- Container Esai -->
+      <div class="esai-container" id="esaiContainer" style="display: none;">
+        <div class="esai-notice">
+          <strong>Instruksi Soal Esai:</strong> Ketikkan uraian jawaban Anda secara komprehensif pada kotak di bawah. Ujian ini menguji daya nalar kritis dan pemahaman konsep secara terstruktur.
+        </div>
+        <textarea class="esai-textarea" id="esaiInput" placeholder="Ketik jawaban esai Anda di sini..." oninput="handleEsaiInput(this)"></textarea>
+        <div class="esai-counter" id="esaiCounter">0 karakter</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn" id="btnPrev" onclick="navigateQuestion(-1)">← Sebelumnya</button>
+      <button class="btn btn-primary" id="btnNext" onclick="navigateQuestion(1)">Selanjutnya →</button>
+    </div>
+  </main>
+
+  <!-- VIEW 3: PREVIEW & REVIEW SEBELUM SUBMIT -->
+  <main id="viewPreview" class="view">
+    <div class="preview-container">
+      <div class="catalog-title">Ringkasan Lembar Ujian</div>
+      <div class="catalog-desc">Periksa kembali seluruh jawaban sebelum mengirim lembar ujian. Klik nomor untuk langsung mengedit.</div>
+
+      <div class="summary-box">
+        <div>
+          <div class="summary-val" style="color: #60a5fa;" id="previewAnsweredCount">0</div>
+          <div class="summary-lbl">PG Terisi</div>
+        </div>
+        <div>
+          <div class="summary-val" style="color: #c084fc;" id="previewEsaiCount">0</div>
+          <div class="summary-lbl">Esai Terisi</div>
+        </div>
+        <div>
+          <div class="summary-val" style="color: #f87171;" id="previewEmptyCount">0</div>
+          <div class="summary-lbl">Belum Terisi</div>
+        </div>
+      </div>
+
+      <div class="preview-list" id="previewList">
+        <!-- List ringkasan per nomor -->
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn" onclick="backToExam()">← Kembali Mengedit</button>
+      <button class="btn btn-primary" onclick="submitFinalExam()">Kirim & Evaluasi Nilai ✓</button>
+    </div>
+  </main>
+
+  <!-- VIEW 4: HASIL & EVALUASI INSTAN -->
+  <main id="viewResult" class="view">
+    <div class="result-container">
+      <div class="score-card">
+        <div class="score-val" id="resScore">0.0</div>
+        <div class="score-label">SKOR PILIHAN GANDA (MAKS. 70)</div>
+        <div class="score-formula-note" id="resFormulaNote">
+          Total Nilai PTS = (Jumlah Benar PG × 2) + Skor Uraian Esai (Maks 30) = Maksimal 100 Poin.
+        </div>
+        <div style="margin-top: 12px; font-size: 13px;" id="resStats"></div>
+      </div>
+
+      <div class="catalog-title" style="font-size: 15px; margin-top: 10px;">Detail Evaluasi & Kunci Jawaban</div>
+      <div class="catalog-desc">Periksa pembahasan tiap nomor pilihan ganda serta rubrik penilaian resmi untuk jawaban esai Anda.</div>
+
+      <div class="detail-list" id="resDetailList">
+        <!-- List evaluasi -->
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn" onclick="restartCurrent()">Ulangi Ujian ↺</button>
+      <button class="btn btn-primary" onclick="backToCatalog()">Katalog Mapel 🏠</button>
+    </div>
+  </main>
+
+  <!-- DRAWER GRID NOMOR SOAL -->
+  <div class="drawer-overlay" id="gridDrawer" onclick="closeDrawer(event)">
+    <div class="drawer-content" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-title">Daftar Nomor Soal</div>
+        <button class="btn btn-subtle" onclick="closeDrawer()">✕</button>
+      </div>
+
+      <div class="grid-section-title">Bagian I: Pilihan Ganda (Acak)</div>
+      <div class="num-grid" id="drawerPgGrid"></div>
+
+      <div class="grid-section-title" id="drawerEsaiTitle" style="display: none;">Bagian II: Soal Esai Uraian</div>
+      <div class="num-grid" id="drawerEsaiGrid"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL: INPUT SOAL OLEH GURU -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-box">
+      <div class="modal-title">Tambah Paket Soal Baru</div>
+      <div class="form-group">
+        <label>Judul Ujian / Mata Pelajaran</label>
+        <input type="text" class="form-control" id="adminTitle" placeholder="Contoh: PTS Ganjil - Dasar TKJ">
+      </div>
+      <div class="form-group">
+        <label>Format Teks Soal Pilihan Ganda</label>
+        <textarea class="form-control" id="adminRawText" rows="10" placeholder="1. Soal nomor satu...&#10;A. Pilihan A&#10;B. Pilihan B&#10;C. Pilihan C&#10;D. Pilihan D&#10;E. Pilihan E&#10;Kunci: B"></textarea>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
+        <button class="btn" onclick="closeAdminModal()">Batal</button>
+        <button class="btn btn-primary" onclick="saveAdminExam()">Simpan Paket</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== SEED DATA EXAM BANK ===== */
+    const EMBEDDED_EXAMS = [{"id": "exam_ai_produktivitas_11_lintas", "title": "Evaluasi Mandiri: AI untuk Produktivitas Kerja - Kelas XI Lintas Jurusan", "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai Prompt Engineering, Etika AI, & Anti-Kebocoran Data.", "questions": [{"id": 1, "type": "pg", "text": "Perbedaan mendasar antara mesin pencari web (seperti Google Search) dengan Large Language Model / AI Generatif (seperti ChatGPT atau Gemini) adalah...", "options": {"A": "Mesin pencari menampilkan daftar tautan web rujukan yang relevan, sedangkan AI generatif memproses instruksi untuk menyintesis dan menghasilkan jawaban langsung berupa teks baru", "B": "Mesin pencari membutuhkan internet, sedangkan AI generatif hanya bisa berjalan saat komputer mati", "C": "Mesin pencari selalu menghasilkan gambar bergerak, sedangkan AI generatif hanya memunculkan angka kalkulator", "D": "Mesin pencari tidak bisa dibuka lewat HP Android, sedangkan AI generatif wajib diakses lewat smart TV", "E": "Mesin pencari hanya menyimpan data rahasia perbankan, sedangkan AI generatif menghapus seluruh riwayat pengguna"}, "key": "A"}, {"id": 2, "type": "pg", "text": "Model AI Generatif berbasis teks (LLM) pada prinsip dasarnya bekerja dengan mekanisme...", "options": {"A": "Memprediksi probabilitas kata atau token berikutnya berdasarkan pola bahasa dari miliaran data teks yang telah dipelajari", "B": "Menghafal seluruh isi internet secara mutlak kata demi kata seperti harddisk komputer", "C": "Menghubungi operator manusia secara diam-diam di ruang server untuk mengetikkan balasan", "D": "Merekam percakapan mikrofon ruangan secara otomatis tanpa henti untuk mencari jawaban", "E": "Mengacak seluruh huruf di kamus hingga membentuk kalimat secara kebetulan"}, "key": "A"}, {"id": 3, "type": "pg", "text": "Dalam menyusun prompt instruksi yang efektif untuk kebutuhan kantor atau bisnis, empat pilar utama anatomi prompt yang baku adalah...", "options": {"A": "Role (Peran), Task (Tugas), Context (Konteks), dan Format (Bentuk Keluaran)", "B": "Name, Password, IP Address, dan Database", "C": "Title, Header, Footer, dan Margin Kertas", "D": "Sender, Courier, Address, dan Postal Code", "E": "Hardware, Software, Brainware, dan Malware"}, "key": "A"}, {"id": 4, "type": "pg", "text": "Perhatikan instruksi berikut:\n\"Bertindaklah sebagai staf administrasi kantor senior. Buatkan draf surat penawaran produk untuk pelanggan baru toko kami...\"\nPotongan kalimat \"Bertindaklah sebagai staf administrasi kantor senior\" mewakili komponen...", "options": {"A": "Role (Peran)", "B": "Format (Bentuk Keluaran)", "C": "Context (Konteks Masalah)", "D": "Feedback (Umpan Balik)", "E": "Constraint (Batasan Sistem)"}, "key": "A"}, {"id": 5, "type": "pg", "text": "Manakah dari instruksi di bawah ini yang paling lengkap dan terstruktur sesuai standar anatomi prompt kerja profesional?", "options": {"A": "\"Bertindaklah sebagai customer service toko ritel. Tuliskan pesan balasan komplain keterlambatan barang untuk pelanggan via WhatsApp. Gunakan nada sopan, minta maaf dengan tulus, maksimal 3 kalimat tanpa jargon teknis.\"", "B": "\"Balas komplain pelanggan cepat.\"", "C": "\"Tulis sesuatu yang bagus untuk pembeli di toko.\"", "D": "\"Bagaimana cara membalas pesan WhatsApp di laptop kantor?\"", "E": "\"Buatkan kata-kata sopan sebanyak 50 halaman buku.\""}, "key": "A"}, {"id": 6, "type": "pg", "text": "Metode memberikan instruksi kepada AI secara langsung tanpa memberikan satupun contoh format jawaban yang diinginkan disebut...", "options": {"A": "Zero-shot Prompting", "B": "Few-shot Prompting", "C": "Multi-shot Prompting", "D": "Chain of Thought", "E": "System Reboot"}, "key": "A"}, {"id": 7, "type": "pg", "text": "Seorang staf administrasi ingin AI mengubah format nomor telepon lokal berantakan ke standar internasional (+62). Ia menyertakan 3 pasang contoh input dan output sebelum baris data aslinya. Teknik prompting ini dinamakan...", "options": {"A": "Few-shot Prompting", "B": "Zero-shot Prompting", "C": "Negative Prompting", "D": "Blind Prompting", "E": "Random Shot Prompting"}, "key": "A"}, {"id": 8, "type": "pg", "text": "Keuntungan utama menggunakan teknik Few-shot Prompting dalam pekerjaan administrasi rutin adalah...", "options": {"A": "Memandu AI agar menghasilkan struktur keluaran (output) yang konsisten dan seragam sesuai pola yang dicontohkan", "B": "Mempercepat kecepatan koneksi kabel WiFi di tempat kerja", "C": "Menghemat baterai perangkat laptop saat mengetik dokumen", "D": "Membuat AI dapat mencetak dokumen ke printer tanpa kabel data", "E": "Menghilangkan biaya tagihan listrik pemakaian komputer"}, "key": "A"}, {"id": 9, "type": "pg", "text": "Teknik Chain of Thought (CoT) dalam perumusan prompt dilakukan dengan cara menginstruksikan AI untuk...", "options": {"A": "Menjabarkan alur logika berpikir secara runtut dan bertahap (langkah demi langkah) sebelum memberikan kesimpulan akhir", "B": "Menjawab pertanyaan secepat mungkin hanya dengan satu kata mutlak", "C": "Menolak seluruh pertanyaan yang mengandung unsur hitungan matematika", "D": "Mengulang-ulang pertanyaan pengguna sebanyak lima kali berturut-turut", "E": "Menerjemahkan seluruh kata kunci ke dalam bahasa kuno"}, "key": "A"}, {"id": 10, "type": "pg", "text": "Frasa instruksi yang paling efektif ditambahkan pada prompt untuk memicu kemampuan Chain of Thought (penalaran runtut) pada AI adalah...", "options": {"A": "\"Analisis permasalahan ini langkah demi langkah (step-by-step) sebelum memberikan rekomendasi keputusan final.\"", "B": "\"Jawab instan tanpa perlu berpikir panjang atau menimbang data.\"", "C": "\"Tebak jawaban yang paling disukai oleh pembaca umum.\"", "D": "\"Abaikan semua aturan tata bahasa dan hitungan angka.\"", "E": "\"Tuliskan kesimpulan akhir saja tanpa penjelasan apapun.\""}, "key": "A"}, {"id": 11, "type": "pg", "text": "Istilah \"Halusinasi AI\" (AI Hallucination) dalam pemanfaatan alat kecerdasan buatan di dunia kerja berarti...", "options": {"A": "Kondisi saat AI memberikan jawaban yang terdengar sangat meyakinkan dan fasih, padahal faktanya keliru atau fiktif", "B": "Layar monitor komputer pengguna berkedip-kedip dan mengeluarkan asap", "C": "Komputer pengguna terinfeksi virus ransomware dari jaringan internet", "D": "AI menolak menjawab pertanyaan karena kuota internet habis", "E": "Suara kipas pendingin prosesor laptop berbunyi terlalu bising"}, "key": "A"}, {"id": 12, "type": "pg", "text": "Saat memanfaatkan platform AI publik gratis di tempat kerja, data manakah di bawah ini yang DILARANG KERAS diunggah demi menjaga keamanan dan kerahasiaan perusahaan?", "options": {"A": "Data pribadi pelanggan (NIK, nomor kartu kredit) dan kata sandi rekening kas operasional perusahaan", "B": "Draf jadwal agenda rapat koordinasi umum pekan depan", "C": "Daftar kata sapaan pembuka surat resmi dalam bahasa Indonesia", "D": "Contoh kalimat penawaran diskon promo akhir tahun toko", "E": "Daftar hari libur nasional resmi kalender pemerintah"}, "key": "A"}, {"id": 13, "type": "pg", "text": "Langkah paling bijaksana dan tepat sebelum menggunakan data statistik atau referensi hukum hasil jawaban AI untuk dokumen laporan kerja adalah...", "options": {"A": "Melakukan uji silang (cross-check) dan memverifikasi data tersebut langsung ke sumber data primer yang kredibel", "B": "Langsung menyalin dan mencetak laporan ke atasan tanpa dibaca lagi", "C": "Mengubah angka-angka hasil AI secara acak sesuai selera pribadi", "D": "Meminta teman kerja menandatangani laporan tanpa verifikasi bersama", "E": "Menghapus seluruh angka dalam laporan agar terbebas dari kesalahan"}, "key": "A"}, {"id": 14, "type": "pg", "text": "Fungsi utama dari pengaturan \"System Prompt\" atau \"Custom Instructions\" pada aplikasi AI kerja adalah...", "options": {"A": "Menetapkan pedoman dasar perilaku, peran profesional, gaya bahasa, dan batasan umum yang akan selalu dipatuhi AI pada setiap sesi percakapan", "B": "Mengatur tingkat kecerahan layar monitor dan volume speaker komputer", "C": "Menghapus seluruh file yang tersimpan di recycle bin sistem operasi", "D": "Mengganti sistem operasi Windows menjadi Linux secara otomatis", "E": "Menambah kapasitas kapasitas memori RAM komputer secara nirkabel"}, "key": "A"}, {"id": 15, "type": "pg", "text": "Jika Anda ingin asisten AI selalu merespons pertanyaan pelanggan dengan gaya ramah, santai, namun tetap sopan, instruksi nada bicara (tone of voice) yang tepat diatur adalah...", "options": {"A": "\"Gunakan gaya bahasa semi-formal yang hangat, komunikatif, solutif, dan hindari istilah teknis yang rumit.\"", "B": "\"Gunakan bahasa perundang-undangan kuno yang kaku dan sulit dimengerti pembaca.\"", "C": "\"Balaslah setiap pesan dengan nada ketus, singkat, dan terkesan meremehkan pembeli.\"", "D": "\"Tuliskan seluruh jawaban dalam bentuk bait puisi atau lirik lagu cinta.\"", "E": "\"Gunakan huruf kapital semua tanpa tanda baca di seluruh jawaban.\""}, "key": "A"}, {"id": 16, "type": "pg", "text": "Dalam menyusun draf email bisnis resmi menggunakan bantuan AI, instruksi pembatasan format yang paling tepat agar pesan efektif dibaca oleh pimpinan perusahaan adalah...", "options": {"A": "\"Sajikan dalam maksimal 3 paragraf padat, diawali salam hormat formal, sebutkan inti maksud di kalimat awal, dan sertakan Call to Action (tindak lanjut) yang jelas di akhir.\"", "B": "\"Buatlah cerita narasi yang berbelit-belit sepanjang 10 halaman agar terlihat rajin.\"", "C": "\"Gunakan bahasa gaul media sosial dengan banyak singkatan kata informal.\"", "D": "\"Cantumkan seluruh rincian riwayat hidup pengirim sejak masa taman kanak-kanak.\"", "E": "\"Tulis email dalam bentuk teka-teki silang yang harus ditebak oleh penerima surat.\""}, "key": "A"}, {"id": 17, "type": "pg", "text": "Jika hasil draf surat komplain dari AI terdengar terlalu kasar dan emosional, instruksi revisi (refinement prompt) yang paling tepat diajukan adalah...", "options": {"A": "\"Ubah nada bicara surat tersebut menjadi lebih tenang, diplomatis, dan fokus pada solusi penyelesaian tanpa menyalahkan pihak manapun secara ofensif.\"", "B": "\"Tambahkan kata-kata ancaman agar pihak vendor segera merasa ketakutan.\"", "C": "\"Hapus seluruh isi surat dan ganti dengan gambar kartun ekspresi marah.\"", "D": "\"Terjemahkan surat tersebut ke dalam lima bahasa asing sekaligus.\"", "E": "\"Kirimkan surat tersebut sepuluh kali secara beruntun ke alamat email vendor.\""}, "key": "A"}, {"id": 18, "type": "pg", "text": "Keunggulan menggunakan LLM modern dibandingkan alat penerjemah kata per kata konvensional saat menerjemahkan dokumen kerja bahasa asing adalah...", "options": {"A": "LLM mampu memahami konteks budaya kerja, idiom bisnis, serta menyesuaikan gaya bahasa sasaran agar terdengar natural bagi penerima", "B": "LLM selalu menolak menerjemahkan teks jika jumlah katanya lebih dari sepuluh", "C": "LLM otomatis mengubah arti dokumen rahasia menjadi dokumen lelucon", "D": "LLM hanya bisa menerjemahkan bahasa jika komputer terhubung kabel telepon", "E": "LLM tidak memerlukan listrik sama sekali saat menerjemahkan dokumen"}, "key": "A"}, {"id": 19, "type": "pg", "text": "Ungkapan bisnis bahasa Inggris \"Please keep me in the loop regarding this project\" diterjemahkan secara kontekstual dan luwes ke dalam etika kerja Indonesia menjadi...", "options": {"A": "\"Tolong terus beri tahu saya perkembangan terbaru mengenai proyek ini ya.\"", "B": "\"Tolong simpan saya di dalam lingkaran bundar proyek ini.\"", "C": "\"Harap ikat saya menggunakan tali putaran pada pekerjaan proyek.\"", "D": "\"Mohon jangan pernah mengabari saya tentang apapun di proyek.\"", "E": "\"Tolong kurung saya di dalam ruangan rapat proyek ini.\""}, "key": "A"}, {"id": 20, "type": "pg", "text": "Ketika seorang notulis memiliki transkrip rekaman rapat kerja sepanjang 15 halaman dan diminta pimpinan membuat ringkasan eksekutif (Executive Summary), prompt AI yang paling efektif adalah...", "options": {"A": "\"Rangkum transkrip rapat terlampir menjadi Executive Summary maksimal 1 halaman, kelompokkan ke dalam 3 bagian: Poin Keputusan Utama, Isu Kritis, dan Rekomendasi Langkah Kerja.\"", "B": "\"Hapus 10 halaman secara acak dan serahkan sisanya ke pimpinan.\"", "C": "\"Ubah seluruh isi percakapan rapat menjadi cerita komik fiksi ilmiah.\"", "D": "\"Tulis ulang seluruh perkataan pembicara kata per kata tanpa ada yang dikurangi.\"", "E": "\"Hitung berapa kali peserta rapat mengucapkan kata halo.\""}, "key": "A"}, {"id": 21, "type": "pg", "text": "Kelemahan yang paling rawan muncul jika kita meminta AI meringkas notulen rapat tanpa memberikan batasan fokus adalah...", "options": {"A": "AI dapat membuang rincian penting terkait angka tenggat waktu atau keputusan krusial dan hanya menampilkan obrolan pembuka yang bersifat umum", "B": "AI akan merusak file sistem operasi komputer pengguna secara tiba-tiba", "C": "Komputer pimpinan akan otomatis mati dan tidak bisa dinyalakan kembali", "D": "Seluruh saldo tabungan kas kantor akan otomatis ditransfer ke internet", "E": "Kertas di mesin printer kantor akan terlipat menjadi bentuk origami"}, "key": "A"}, {"id": 22, "type": "pg", "text": "Dari narasi notulen rapat: \"Bu Diana setuju menyiapkan laporan kas kecil sebelum tanggal 12 Oktober, sedangkan Pak Roni akan memverifikasi stok barang gudang pada tanggal 15 Oktober\", komponen \"Action Items\" terstruktur yang tepat diekstraksi adalah...", "options": {"A": "Daftar tabel memuat kolom Tugas, Penanggung Jawab (PIC), dan Batas Waktu (Deadline)", "B": "Daftar menu makanan makan siang peserta rapat kantor", "C": "Daftar riwayat pendidikan masa kecil Bu Diana dan Pak Roni", "D": "Tabel denah tempat duduk ruangan rapat dan nomor AC", "E": "Daftar inventaris jumlah kursi dan meja yang digunakan saat rapat"}, "key": "A"}, {"id": 23, "type": "pg", "text": "Format keluaran (output format) yang paling mudah disalin ke aplikasi pengelola tugas kantor (seperti Trello, Notion, atau Excel) saat meminta AI menyaring action items adalah...", "options": {"A": "Tabel Markdown dengan kolom nomor, deskripsi tugas, penanggung jawab, dan tenggat waktu", "B": "Teks paragraf tebal tanpa tanda baca atau spasi pemisah", "C": "File suara rekaman nada dering instrumen musik piano", "D": "Gambar animasi bergerak berukuran besar (GIF resolusi 4K)", "E": "Teks acak yang huruf vokalnya telah dihapus seluruhnya"}, "key": "A"}, {"id": 24, "type": "pg", "text": "Dalam dunia kerja dan pemasaran, formula dasar copywriting \"AIDA\" yang sering diterapkan saat meminta AI menyusun draf promosi produk merupakan singkatan dari...", "options": {"A": "Attention, Interest, Desire, Action", "B": "Accuracy, Internet, Digital, Automation", "C": "Account, Income, Deficit, Audit", "D": "Active, Input, Data, Archive", "E": "Agreement, Insurance, Delivery, Assets"}, "key": "A"}, {"id": 25, "type": "pg", "text": "Seorang karyawan ingin dokumen SOP yang dibuatnya menjadi lebih ringkas dan to-the-point tanpa basa-basi berlebih. Perintah (prompt) perbaikan gaya penulisan yang tepat adalah...", "options": {"A": "\"Revisi dokumen terlampir dengan prinsip eliminasi kata mubazir (anti-slop), gunakan kalimat aktif bernas, dan sajikan urutan langkah menggunakan penomoran berurutan.\"", "B": "\"Tambahkan bunga-bunga bahasa yang puitis dan metafora metafora abstrak.\"", "C": "\"Ganti seluruh kalimat instruksi menjadi kalimat tanya yang membingungkan staf.\"", "D": "\"Perpanjang kalimat menjadi 50 kata per kalimat agar terkesan sangat ilmiah.\"", "E": "\"Hapus semua nomor langkah kerja dan gabungkan menjadi satu blok teks raksasa.\""}, "key": "A"}, {"id": 26, "type": "pg", "text": "Pekerjaan administratif berikut yang PALING COCOK didelegasikan dan dipercepat menggunakan bantuan kecerdasan buatan (AI) adalah...", "options": {"A": "Pekerjaan berulang seperti merangkum surel panjang, mengekstrak data dari formulir, dan membuat draf balasan standar", "B": "Menyetujui pengeluaran uang kas kantor bernilai ratusan juta rupiah tanpa audit", "C": "Menggantikan tanda tangan fisik notaris resmi negara pada dokumen hukum tanah", "D": "Menentukan pemutusan hubungan kerja karyawan secara sepihak dan otomatis", "E": "Menilai kejujuran moral pelamar kerja hanya dari foto profil media sosial"}, "key": "A"}, {"id": 27, "type": "pg", "text": "Seorang staf administrasi memiliki data penjualan dan bingung menyusun rumus Excel untuk menghitung total omzet produk yang berstatus \"Lunas\". Bantuan prompt yang tepat diajukan ke AI adalah...", "options": {"A": "\"Tuliskan rumus spreadsheet untuk menjumlahkan nilai kolom C jika status pada kolom B bertuliskan kata 'Lunas', lengkap dengan contoh penerapannya.\"", "B": "\"Kenapa aplikasi Excel saya warnanya hijau bukan ungu?\"", "C": "\"Tebak berapa keuntungan toko kami bulan depan tanpa ada data.\"", "D": "\"Hapus seluruh baris data di komputer saya sekarang juga.\"", "E": "\"Hitung luas lingkaran jika diketahui jari-jarinya 14 cm.\""}, "key": "A"}, {"id": 28, "type": "pg", "text": "Rumus spreadsheet yang paling sering disarankan oleh AI untuk mencari data harga barang pada katalog produk berdasarkan kode barcode tertentu secara vertikal adalah...", "options": {"A": "=VLOOKUP atau =XLOOKUP", "B": "=COUNTIF atau =SUMIF", "C": "=CONCATENATE atau =TEXTJOIN", "D": "=TODAY atau =NOW", "E": "=LOWER atau =UPPER"}, "key": "A"}, {"id": 29, "type": "pg", "text": "Seorang sekretaris menerima pesan obrolan WhatsApp berantakan berisi daftar pesanan barang:\n\"Andi beli 2 rim kertas HVS seharga 100rb, Budi pesan 1 buah spidol seharga 10rb...\"\nInstruksi AI yang tepat untuk mengubah data mentah tersebut menjadi data yang rapi adalah...", "options": {"A": "\"Ekstrak entri pesanan tersebut menjadi format tabel dengan kolom: Nama Pembeli, Nama Barang, Jumlah, dan Total Harga dalam format tabel CSV / Markdown siap salin.\"", "B": "\"Hapus seluruh nama pembeli dan tinggalkan tanda koma saja.\"", "C": "\"Ubah seluruh angka rupiah menjadi angka tahun masehi.\"", "D": "\"Kirim pesan tersebut ke nomor telepon acak yang ada di internet.\"", "E": "\"Terjemahkan nama barang ke dalam bahasa Yunani kuno.\""}, "key": "A"}, {"id": 30, "type": "pg", "text": "Ketika tabel rekapitulasi data penjualan harian toko selama 6 bulan diunggah ke AI untuk dianalisis, kemampuan analitik dasar yang dapat diekstraksi adalah...", "options": {"A": "Menemukan hari apa yang memiliki lonjakan penjualan tertinggi, pola kecenderungan produk terlaris, dan mendeteksi anomali penurunan omzet", "B": "Mengetahui secara mistis nama lengkap seluruh orang yang lewat di depan toko fisik", "C": "Memaksa calon pembeli di internet untuk segera mentransfer uang ke rekening toko", "D": "Mengganti struk belanja fisik pembeli yang telah terbuang di tempat sampah", "E": "Menjamin laba toko pasti naik 1000% pada esok hari tanpa ada strategi bisnis"}, "key": "A"}, {"id": 31, "type": "pg", "text": "Jika seorang pimpinan meminta Anda mempresentasikan \"Perbandingan Persentase Kontribusi Pangsa Pasar Penjualan per Kategori Produk\" terhadap total keseluruhan 100%, jenis diagram yang paling direkomendasikan adalah...", "options": {"A": "Pie Chart (Diagram Lingkaran) atau Donut Chart", "B": "Scatter Plot (Diagram Sebar Titik)", "C": "Line Chart (Diagram Garis Berombak)", "D": "Candlestick Chart Pasar Saham", "E": "Radar Spider Chart Kompleks"}, "key": "A"}, {"id": 32, "type": "pg", "text": "Untuk menampilkan perubahan tren naik-turunnya jumlah ketidakhadiran siswa atau karyawan dari bulan Januari hingga Desember, rekomendasi grafik yang paling tepat adalah...", "options": {"A": "Line Chart (Diagram Garis)", "B": "Pie Chart (Diagram Lingkaran)", "C": "Treemap Kotak", "D": "Bubble Chart Tiga Dimensi", "E": "Gantt Chart Jadwal Kerja"}, "key": "A"}, {"id": 33, "type": "pg", "text": "Penerapan nilai karakter \"Berbudi Luhur\" (5NK) yang paling mencerminkan integritas seorang siswa atau profesional saat memanfaatkan AI di dunia kerja adalah...", "options": {"A": "Selalu bersikap jujur dan transparan, memeriksa ulang kebenaran konten, serta tidak mengklaim hasil pemikiran orang lain atau AI mentah sebagai karya cipta orisinal pribadi", "B": "Menyalin mentah-mentah 100% jawaban AI dan langsung diserahkan tanpa dibaca sama sekali", "C": "Menggunakan AI untuk memalsukan bukti transfer kwitansi pembayaran kantor", "D": "Menyembunyikan penggunaan komputer agar terlihat mengerjakan semua tugas secara supranatural", "E": "Menolak mempelajari teknologi baru karena takut dianggap orang modern"}, "key": "A"}, {"id": 34, "type": "pg", "text": "Sikap \"Cerdas dan Terampil\" (5NK) dalam memposisikan teknologi AI pada era digital saat ini adalah...", "options": {"A": "Menjadikan AI sebagai alat bantu (asisten produktivitas) untuk mempercepat pekerjaan, sementara kendali logika, verifikasi, dan keputusan etis tetap dipegang oleh manusia", "B": "Menyerahkan seluruh keputusan hidup dan moral kerja sepenuhnya kepada algoritma AI", "C": "Menghentikan seluruh aktivitas belajar di sekolah karena merasa AI sudah serba tahu", "D": "Menghindari penggunaan kalkulator dan internet demi mempertahankan cara manual abad pertengahan", "E": "Membayar orang lain untuk mengetikkan prompt setiap kali ingin bertanya ke AI"}, "key": "A"}, {"id": 35, "type": "pg", "text": "Karakter \"Disiplin\" (5NK) dalam pengelolaan tugas kerja harian dapat dioptimalkan dengan bantuan AI melalui pembuatan...", "options": {"A": "Matriks prioritas kerja harian (Daily Priority Task List) yang memisahkan tugas mendesak-penting dan mencantumkan alokasi waktu realistis", "B": "Daftar alasan otomatis untuk menunda pekerjaan hingga batas waktu terlewati", "C": "Pesan pengingat palsu agar komputer terlihat sibuk padahal tidak ada pekerjaan", "D": "Jadwal istirahat tidur siang tanpa batas waktu di jam kerja operasional", "E": "Laporan kegiatan fiktif yang tidak pernah dikerjakan sama sekali"}, "key": "A"}, {"id": 36, "type": "esai", "text": "Jelaskan 4 pilar utama anatomi prompt (Role, Task, Context, Format) dan buatlah 1 contoh prompt kerja lengkap yang menerapkan keempat pilar tersebut untuk menyelesaikan tugas administrasi kantor!", "rubrik": "4 pilar prompt: Role (peran profesional AI), Task (instruksi tugas inti), Context (latar belakang & detail spesifik), Format (tata letak/tampilan output). Sertakan contoh draf prompt kerja administrasi kantor.", "max_score": 6}, {"id": 37, "type": "esai", "text": "Jelaskan apa yang dimaksud dengan fenomena \"Halusinasi AI\" (AI Hallucination) serta sebutkan 2 langkah konkret yang wajib dilakukan oleh seorang pekerja profesional sebelum mempercayai data dari AI!", "rubrik": "Definisi AI Hallucination: Kondisi saat model AI memberikan informasi yang tampak sangat meyakinkan padahal salah atau fiktif secara faktual. 2 langkah mitigasi: Cross-check ke dokumen sumber resmi & batasi konteks prompt secara ketat.", "max_score": 6}, {"id": 38, "type": "esai", "text": "Mengapa kita DILARANG KERAS memasukkan data sensitif perusahaan (seperti nomor rekening rahasia, data KTP pelanggan, atau kata sandi sistem) ke dalam platform AI publik gratis di tempat kerja? Jelaskan risikonya!", "rubrik": "Risiko kebocoran data (Data Leakage): Data sensitif yang dimasukkan ke AI publik dapat disimpan oleh penyedia, dijadikan bahan retraining model generasi berikutnya, dan terekspos ke pengguna lain di internet.", "max_score": 6}, {"id": 39, "type": "esai", "text": "Jelaskan perbedaan mendasar antara teknik \"Zero-shot Prompting\" dan \"Few-shot Prompting\", serta berikan contoh kasus di dunia kerja kapan kita lebih diuntungkan menggunakan Few-shot Prompting!", "rubrik": "Zero-shot Prompting mengeksekusi instruksi langsung tanpa contoh, sedangkan Few-shot Prompting menyertakan 1-3 contoh pasangan input-output format standar agar AI konsisten mengikuti pola format yang rumit.", "max_score": 6}, {"id": 40, "type": "esai", "text": "Sebagai peserta didik SMK yang berkarakter 5NK, jelaskan wujud nyata penerapan nilai \"Berbudi Luhur\" (etika kejujuran dan anti-plagiasi) serta \"Cerdas\" (kritis terhadap akurasi informasi) saat menggunakan teknologi AI untuk menyelesaikan tugas sekolah atau pekerjaan magang!", "rubrik": "Penerapan 5NK: Nilai 'Berbudi Luhur' diwujudkan dengan tidak mengklaim hasil teks murni AI sebagai karya sendiri secara plagiat. Nilai 'Cerdas' diwujudkan dengan sikap kritis memeriksa validitas logika dan perhitungan hasil AI.", "max_score": 6}]}, {"id": "exam_datascience_11_tkj", "title": "Evaluasi Mandiri: Data Science I - Kelas XI TKJ (Pertemuan 1-18)", "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai Fondasi Data & Pembersihan Dataset CSV.", "questions": [{"id": 1, "type": "pg", "text": "Data Science pada dasarnya merupakan gabungan dari tiga disiplin ilmu utama, yaitu...", "options": {"A": "Ilmu Komputer (Pemrograman), Matematika/Statistika, dan Pengetahuan Domain Bisnis", "B": "Teknik Mesin, Kimia Terapan, dan Desain Interior", "C": "Seni Musik, Hukum Pidana, dan Arsitektur Jaringan", "D": "Akuntansi Manual, Olahraga Kesehatan, dan Kelistrikan Kapal", "E": "Desain Grafis, Animasi 3D, dan Perakitan Motherboard"}, "key": "A"}, {"id": 2, "type": "pg", "text": "Perbedaan mendasar antara data terstruktur (structured data) dan data tidak terstruktur (unstructured data) adalah...", "options": {"A": "Data terstruktur tersusun rapi dalam baris dan kolom tabel, sedangkan data tidak terstruktur tidak memiliki format kaku (seperti foto, video, dan suara)", "B": "Data terstruktur hanya bisa disimpan di flashdisk, sedangkan data tidak terstruktur disimpan di harddisk", "C": "Data terstruktur berukuran gigabyte, sedangkan data tidak terstruktur selalu berukuran byte", "D": "Data terstruktur tidak bisa dihitung rata-ratanya, sedangkan data tidak terstruktur otomatis berupa angka", "E": "Data terstruktur dibuat oleh kecerdasan buatan, sedangkan data tidak terstruktur dibuat oleh kalkulator"}, "key": "A"}, {"id": 3, "type": "pg", "text": "Contoh nyata dari data terstruktur yang sering dikelola oleh teknisi jaringan di sekolah adalah...", "options": {"A": "Tabel daftar presensi kehadiran dan tabel alokasi IP Address siswa dalam format Excel/CSV", "B": "Rekaman suara percakapan telepon guru di ruang kantor", "C": "Koleksi foto dokumentasi kegiatan perkemahan sekolah", "D": "Video rekaman CCTV ruangan server selama satu bulan", "E": "Naskah esai curahan hati siswa di buku harian"}, "key": "A"}, {"id": 4, "type": "pg", "text": "Prinsip \"Berbudi Luhur\" (5NK) dalam mengolah dataset publik (seperti dari portal Satu Data Indonesia atau BPS) diwujudkan melalui...", "options": {"A": "Mencantumkan sumber dataset secara jujur, menjaga privasi data individu, dan tidak memanipulasi angka statistik", "B": "Menghapus nama instansi penyedia data agar terlihat seperti hasil riset pribadi", "C": "Mengubah angka angka kemiskinan agar nilai proyek kelompok mendapat pujian", "D": "Menjual dataset gratis milik pemerintah ke situs pasar gelap internet", "E": "Mengunci file data dengan enkripsi tanpa membagikan kata kuncinya ke guru"}, "key": "A"}, {"id": 5, "type": "pg", "text": "Pada aplikasi spreadsheet (seperti Google Sheets atau Microsoft Excel), rumus yang digunakan untuk menghitung nilai rata-rata dari sel A1 sampai A50 adalah...", "options": {"A": "=AVERAGE(A1:A50)", "B": "=SUM(A1:A50)", "C": "=COUNT(A1:A50)", "D": "=MAX(A1:A50)", "E": "=MEDIAN_AVG(A1:A50)"}, "key": "A"}, {"id": 6, "type": "pg", "text": "Rumus spreadsheet yang paling tepat digunakan untuk menghitung berapa banyak siswa yang berstatus \"Hadir\" pada kolom keterangan presensi adalah...", "options": {"A": "=COUNTIF(C2:C35, \"Hadir\")", "B": "=SUMIF(C2:C35, \"Hadir\")", "C": "=TOTAL(C2:C35, \"Hadir\")", "D": "=COUNT(C2:C35)", "E": "=FIND(C2:C35, \"Hadir\")"}, "key": "A"}, {"id": 7, "type": "pg", "text": "Fitur pada spreadsheet yang berfungsi merangkum, mengelompokkan, dan menganalisis ribuan baris data transaksi besar secara cepat dan dinamis tanpa mengetik rumus manual disebut...", "options": {"A": "Pivot Table", "B": "Freeze Panes", "C": "Text to Columns", "D": "Format Painter", "E": "Conditional Formatting"}, "key": "A"}, {"id": 8, "type": "pg", "text": "Fungsi `=VLOOKUP(A2, Data_Siswa!A1:D100, 3, FALSE)` pada spreadsheet memiliki kegunaan untuk...", "options": {"A": "Mencari nilai kunci sel A2 pada kolom pertama tabel referensi dan mengambil data dari kolom ke-3 secara persis", "B": "Menghapus baris ke-3 pada tabel referensi secara permanen", "C": "Menjumlahkan seluruh angka yang ada di kolom ke-3", "D": "Mengganti huruf kecil menjadi huruf kapital pada sel A2", "E": "Membuat grafik lingkaran 3 dimensi secara otomatis"}, "key": "A"}, {"id": 9, "type": "pg", "text": "Tipe data pada bahasa pemrograman Python yang digunakan untuk menyimpan nilai bilangan desimal (misalnya nilai IPK 3.75 atau suhu 28.5) adalah...", "options": {"A": "Float", "B": "Integer", "C": "String", "D": "Boolean", "E": "List"}, "key": "A"}, {"id": 10, "type": "pg", "text": "Struktur data Python yang ditulis menggunakan kurung siku `[ ]` dan dapat menyimpan kumpulan elemen yang bisa diubah (mutable) disebut...", "options": {"A": "List", "B": "Tuple", "C": "Dictionary", "D": "Set", "E": "Integer"}, "key": "A"}, {"id": 11, "type": "pg", "text": "Perhatikan baris kode Python berikut:\n`nilai = 82`\n`if nilai >= 75:`\n`    print(\"Kompeten\")`\n`else:`\n`    print(\"Belum Kompeten\")`\nOutput yang dihasilkan di layar terminal adalah...", "options": {"A": "Kompeten", "B": "Belum Kompeten", "C": "Error: Syntax Invalid", "D": "True", "E": "None"}, "key": "A"}, {"id": 12, "type": "pg", "text": "Perulangan (looping) pada Python yang digunakan saat kita sudah mengetahui secara pasti berapa kali perulangan harus dieksekusi (misalnya mengulang 10 kali) adalah...", "options": {"A": "for i in range(10):", "B": "while True:", "C": "loop 10 times:", "D": "repeat until 10:", "E": "goto line 10"}, "key": "A"}, {"id": 13, "type": "pg", "text": "Kata kunci (keyword) yang digunakan untuk mendefinisikan sebuah fungsi buatan sendiri pada Python adalah...", "options": {"A": "def", "B": "function", "C": "func", "D": "void", "E": "create"}, "key": "A"}, {"id": 14, "type": "pg", "text": "Dalam penulisan kode Python, aturan format yang sangat krusial dan wajib diperhatikan untuk membedakan blok kode percabangan atau fungsi adalah...", "options": {"A": "Indentasi (spasi/tab pada awal baris)", "B": "Tanda titik koma (;) di setiap akhir baris", "C": "Tanda kurung kurawal ({}) untuk membungkus blok perintah", "D": "Penggunaan huruf kapital pada setiap nama variabel", "E": "Pemberian warna teks pada editor visual"}, "key": "A"}, {"id": 15, "type": "pg", "text": "Library utama pada ekosistem Python yang dirancang khusus untuk manipulasi, pembersihan, dan analisis data berformat tabel dua dimensi adalah...", "options": {"A": "Pandas", "B": "Matplotlib", "C": "Pygame", "D": "Tkinter", "E": "Flask"}, "key": "A"}, {"id": 16, "type": "pg", "text": "Objek struktur data dua dimensi berbentuk baris dan kolom pada library Pandas disebut...", "options": {"A": "DataFrame", "B": "Series", "C": "Array 1D", "D": "Tensor", "E": "Matrix Vector"}, "key": "A"}, {"id": 17, "type": "pg", "text": "Sintaks Pandas yang digunakan untuk membaca file dataset berekstensi CSV bernama \"data_banjir.csv\" ke dalam variabel `df` adalah...", "options": {"A": "df = pd.read_csv(\"data_banjir.csv\")", "B": "df = pd.open_file(\"data_banjir.csv\")", "C": "df = pd.load_csv(\"data_banjir.csv\")", "D": "df = pd.import_data(\"data_banjir.csv\")", "E": "df = pd.scan_table(\"data_banjir.csv\")"}, "key": "A"}, {"id": 18, "type": "pg", "text": "Method pada DataFrame Pandas yang digunakan untuk melihat 5 baris pertama data secara cepat adalah...", "options": {"A": "df.head()", "B": "df.tail()", "C": "df.info()", "D": "df.first()", "E": "df.show()"}, "key": "A"}, {"id": 19, "type": "pg", "text": "Untuk mengetahui jumlah sel yang bernilai kosong (missing values / NaN) pada setiap kolom DataFrame Pandas, perintah yang digunakan adalah...", "options": {"A": "df.isnull().sum()", "B": "df.empty_cells()", "C": "df.check_null()", "D": "df.count_zero()", "E": "df.has_missing()"}, "key": "A"}, {"id": 20, "type": "pg", "text": "Jika seorang siswa ingin menghapus seluruh baris data yang memiliki nilai kosong pada DataFrame `df`, sintaks yang tepat adalah...", "options": {"A": "df.dropna()", "B": "df.remove_empty()", "C": "df.delete_null()", "D": "df.clear_rows()", "E": "df.drop_column()"}, "key": "A"}, {"id": 21, "type": "pg", "text": "Mengapa mengisi data kosong dengan nilai rata-rata (imputasi mean menggunakan `df.fillna()`) sering kali lebih disukai daripada langsung menghapus baris data?", "options": {"A": "Karena menghapus baris dapat menghilangkan informasi penting lain pada baris tersebut dan mengurangi ukuran sampel data", "B": "Karena menghapus baris akan membuat laptop siswa mengalami overheat", "C": "Karena metode imputasi membuat program Python berjalan 100 kali lebih cepat", "D": "Karena menghapus baris dilarang keras oleh sistem operasi Windows", "E": "Karena nilai rata-rata pasti membuat model prediksi selalu 100% akurat"}, "key": "A"}, {"id": 22, "type": "pg", "text": "Dua library Python yang paling umum dan standar digunakan secara berpasangan untuk membuat grafik visualisasi data statistik adalah...", "options": {"A": "Matplotlib dan Seaborn", "B": "Django dan Bootstrap", "C": "NumPy dan BeautifulSoup", "D": "OpenCV dan Keras", "E": "PyTorch dan Scrapy"}, "key": "A"}, {"id": 23, "type": "pg", "text": "Jenis diagram (chart) yang paling tepat digunakan untuk memvisualisasikan tren kenaikan suhu udara atau polusi dari bulan ke bulan selama satu tahun adalah...", "options": {"A": "Line Chart (Diagram Garis)", "B": "Pie Chart (Diagram Lingkaran)", "C": "Bar Chart Horizontal (Diagram Batang Datar)", "D": "Treemap", "E": "Boxplot murni"}, "key": "A"}, {"id": 24, "type": "pg", "text": "Perintah Matplotlib yang wajib dipanggil di baris paling akhir agar jendela tampilan grafik muncul ke layar pengguna adalah...", "options": {"A": "plt.show()", "B": "plt.display()", "C": "plt.render()", "D": "plt.open()", "E": "plt.start()"}, "key": "A"}, {"id": 25, "type": "pg", "text": "Fungsi `plt.title(\"Tren Produksi Beras Nasional 2020-2025\")` pada script visualisasi Matplotlib bertujuan untuk...", "options": {"A": "Memberikan teks judul utama di bagian atas diagram grafik", "B": "Menamai file gambar saat disimpan ke harddisk", "C": "Mengubah warna garis grafik menjadi hijau beras", "D": "Menghitung total produksi beras secara otomatis", "E": "Menentukan batas maksimal sumbu Y pada grafik"}, "key": "A"}, {"id": 26, "type": "pg", "text": "Perbedaan utama antara Supervised Learning (Pembelajaran Terarah) dan Unsupervised Learning (Pembelajaran Tak Terarah) adalah...", "options": {"A": "Supervised Learning menggunakan data latih yang memiliki label target jawaban, sedangkan Unsupervised Learning mencari pola sendiri dari data tanpa label", "B": "Supervised Learning tidak menggunakan komputer, sedangkan Unsupervised Learning memakai robot AI", "C": "Supervised Learning hanya untuk data suara, sedangkan Unsupervised Learning untuk data teks", "D": "Supervised Learning selalu gratis, sedangkan Unsupervised Learning memerlukan lisensi berbayar", "E": "Supervised Learning dijalankan secara offline, sedangkan Unsupervised Learning wajib online 24 jam"}, "key": "A"}, {"id": 27, "type": "pg", "text": "Contoh permasalahan di dunia nyata yang termasuk ke dalam kategori Supervised Learning adalah...", "options": {"A": "Memprediksi apakah seorang siswa lulus atau tidak lulus berdasarkan riwayat nilai dan persentase absensi", "B": "Mengelompokkan pelanggan toko ke dalam beberapa klaster belanja tanpa tahu kategorinya", "C": "Mengurangi dimensi ribuan fitur data sensor server menggunakan PCA", "D": "Menemukan asosiasi barang belanjaan yang sering dibeli bersamaan di minimarket", "E": "Mencari anomali pola sinyal radio antariksa secara acak"}, "key": "A"}, {"id": 28, "type": "pg", "text": "Dalam machine learning, data target yang nilainya berupa angka kontinu (misalnya memprediksi harga bahan pangan atau suhu udara) diselesaikan menggunakan teknik...", "options": {"A": "Regresi (Regression)", "B": "Klasifikasi (Classification)", "C": "Clustering", "D": "Association Rule", "E": "Dimensionality Reduction"}, "key": "A"}, {"id": 29, "type": "pg", "text": "Persamaan matematis dasar yang memodelkan hubungan garis lurus pada algoritma Regresi Linear sederhana adalah...", "options": {"A": "y = mx + c", "B": "E = mc²", "C": "a² + b² = c²", "D": "F = m × a", "E": "V = I × R"}, "key": "A"}, {"id": 30, "type": "pg", "text": "Dalam persamaan regresi linear y = mx + c, simbol \"m\" merepresentasikan...", "options": {"A": "Kemiringan garis (slope / gradien)", "B": "Titik potong sumbu Y (intercept)", "C": "Variabel bebas (input fitur)", "D": "Nilai prediksi akhir", "E": "Tingkat kesalahan model (error)"}, "key": "A"}, {"id": 31, "type": "pg", "text": "Library Python yang menyediakan modul standar algoritma machine learning siap pakai seperti LinearRegression dan DecisionTreeClassifier adalah...", "options": {"A": "Scikit-Learn (sklearn)", "B": "Selenium", "C": "Requests", "D": "PyPDF2", "E": "Socket"}, "key": "A"}, {"id": 32, "type": "pg", "text": "Method pada Scikit-Learn yang digunakan untuk melatih model regresi atau klasifikasi menggunakan data latih (X_train, y_train) adalah...", "options": {"A": "model.fit(X_train, y_train)", "B": "model.train(X_train, y_train)", "C": "model.learn(X_train, y_train)", "D": "model.run(X_train, y_train)", "E": "model.execute(X_train, y_train)"}, "key": "A"}, {"id": 33, "type": "pg", "text": "Fungsi Scikit-Learn yang digunakan untuk membagi dataset menjadi data latih (training set) dan data uji (testing set) secara acak dan proporsional adalah...", "options": {"A": "train_test_split()", "B": "data_divider()", "C": "split_dataset()", "D": "cross_shuffle()", "E": "cut_data()"}, "key": "A"}, {"id": 34, "type": "pg", "text": "Metrik evaluasi sederhana yang mengukur perbandingan antara jumlah tebakan prediksi yang benar terhadap total seluruh data uji pada model klasifikasi disebut...", "options": {"A": "Akurasi (Accuracy)", "B": "Bandwidth", "C": "Throughput", "D": "Clock Speed", "E": "Downtime"}, "key": "A"}, {"id": 35, "type": "pg", "text": "Sebagai siswa SMK yang berkarakter \"Cerdas dan Cinta Tanah Air\" (5NK), penerapan kompetensi Data Science yang paling bermanfaat bagi masyarakat sekitar adalah...", "options": {"A": "Mengolah dataset pertanian atau harga pangan lokal untuk membantu petani dan pedagang memprediksi tren komoditas", "B": "Membuat program peretas password akun media sosial milik warga sekolah", "C": "Menjual data nomor telepon pribadi teman sekelas ke perusahaan pinjaman online ilegal", "D": "Menolak membagikan script belajar kepada kelompok lain karena takut tersaingi", "E": "Memanipulasi grafik polusi udara agar tempat wisata lokal tidak dinilai kotor"}, "key": "A"}, {"id": 36, "type": "esai", "text": "Jelaskan perbedaan mendasar antara data terstruktur (Structured Data) dan data tidak terstruktur (Unstructured Data), serta berikan masing-masing 2 contoh nyata yang ada di lingkungan sekolah!", "rubrik": "Data Terstruktur tersusun rapi dalam baris-kolom (tabel database/spreadsheet, cth: tabel presensi, tabel alokasi IP). Data Tidak Terstruktur berupa teks bebas atau multimedia (cth: foto kegiatan, rekaman CCTV).", "max_score": 6}, {"id": 37, "type": "esai", "text": "Dalam aplikasi spreadsheet (Google Sheets / Excel), jelaskan fungsi rumus AVERAGE, COUNTIF, dan VLOOKUP beserta contoh kasus penggunaannya dalam mengolah data presensi siswa!", "rubrik": "AVERAGE untuk menghitung rata-rata nilai, COUNTIF untuk menghitung frekuensi kehadiran/status tertentu, VLOOKUP untuk mencari data pada tabel referensi berdasarkan kunci unik (NIS).", "max_score": 6}, {"id": 38, "type": "esai", "text": "Sebuah dataset CSV pemantauan curah hujan memiliki beberapa sel kosong (missing value) pada kolom suhu. Jelaskan mengapa kita sebaiknya melakukan imputasi (misal dengan nilai rata-rata / mean) dibandingkan langsung menghapus baris tersebut!", "rubrik": "Imputasi mean mempertahankan struktur dataset dan ukuran sampel tanpa membuang informasi berharga pada kolom lainnya, berbeda dengan dropna yang langsung menghapus seluruh baris data.", "max_score": 6}, {"id": 39, "type": "esai", "text": "Jelaskan perbedaan mendasar antara Supervised Learning (Pembelajaran Terarah) dan Unsupervised Learning (Pembelajaran Tak Terarah) dalam bidang Machine Learning!", "rubrik": "Supervised Learning menggunakan data latih yang memiliki label target keluaran yang jelas (klasifikasi/regresi), sedangkan Unsupervised Learning mencari pola tersembunyi atau pengelompokan (clustering) pada data tanpa label.", "max_score": 6}, {"id": 40, "type": "esai", "text": "Sebagai calon praktisi Data Science SMK Kartika X-1 yang berkarakter 5NK, jelaskan wujud nyata penerapan nilai \"Berbudi Luhur\" (terkait kejujuran data & etika AI) dan \"Cinta Tanah Air\" (terkait pemanfaatan dataset lokal) dalam menyelesaikan proyek analisis data!", "rubrik": "Penerapan 5NK: Nilai 'Berbudi Luhur' diwujudkan dengan tidak memanipulasi data uji (zero falsification) serta jujur terhadap akurasi. 'Cinta Tanah Air' diwujudkan dengan memprioritaskan analisis persoalan lokal masyarakat.", "max_score": 6}]}, {"id": "exam_datascience_12_tkj", "title": "Evaluasi Mandiri: Data Science II - Kelas XII TKJ (Pertemuan 1-18)", "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai Analitis. Dilengkapi sistem acak soal dan penilai mandiri.", "questions": [{"id": 1, "type": "pg", "text": "Kecerdasan Buatan (Artificial Intelligence) pada dasarnya diciptakan dengan tujuan utama untuk...", "options": {"A": "Meniru kemampuan berpikir dan menyelesaikan masalah seperti manusia", "B": "Menggantikan seluruh perangkat keras komputer di laboratorium", "C": "Menghapus seluruh file data lama secara otomatis", "D": "Membuat koneksi internet kabel LAN menjadi nirkabel", "E": "Mengunci layar komputer agar tidak bisa diakses orang lain"}, "key": "A"}, {"id": 2, "type": "pg", "text": "Perbedaan utama antara pemrograman biasa (tradisional) dengan Machine Learning adalah...", "options": {"A": "Machine Learning belajar mengenali pola dari kumpulan contoh data secara otomatis", "B": "Pemrograman biasa tidak membutuhkan daya listrik sama sekali", "C": "Pemrograman biasa hanya bisa berjalan pada smartphone Android", "D": "Machine Learning tidak memerlukan bahasa pemrograman apa pun", "E": "Machine Learning selalu membutuhkan kabel jaringan khusus"}, "key": "A"}, {"id": 3, "type": "pg", "text": "Dalam bidang Data Science, data berupa foto wajah atau citra server di laboratorium dikelompokkan ke dalam jenis data...", "options": {"A": "Data visual / gambar", "B": "Data tabular (tabel baris kolom)", "C": "Data numerik murni", "D": "Data gelombang radio", "E": "Data kode pos"}, "key": "A"}, {"id": 4, "type": "pg", "text": "Bahasa pemrograman yang paling umum dan standar digunakan oleh teknisi untuk membuat proyek kecerdasan buatan (AI) dan machine learning adalah...", "options": {"A": "Python", "B": "HTML", "C": "CSS", "D": "Pascal", "E": "SQL"}, "key": "A"}, {"id": 5, "type": "pg", "text": "Sebelum file gambar digunakan untuk melatih model kecerdasan buatan, gambar perlu diubah ukurannya (resize) menjadi sama besar agar...", "options": {"A": "Ukuran input yang masuk ke dalam model seragam dan mudah diproses", "B": "Gambar terlihat lebih buram dan tersembunyi", "C": "Warna gambar otomatis berubah menjadi hitam putih", "D": "Kapasitas penyimpanan harddisk langsung penuh", "E": "Model AI menolak memproses gambar tersebut"}, "key": "A"}, {"id": 6, "type": "pg", "text": "Saat membuat sistem pengenal jenis kabel jaringan UTP dari foto, langkah memberi nama label \"Kabel Straight\" atau \"Kabel Cross\" pada gambar disebut proses...", "options": {"A": "Pelabelan data (Data Labeling)", "B": "Formatting harddisk", "C": "Enkripsi password", "D": "Defragmentasi disk", "E": "Backup router"}, "key": "A"}, {"id": 7, "type": "pg", "text": "Contoh penerapan teknologi pengenalan citra (Computer Vision) yang sering kita temukan dalam kehidupan sehari-hari adalah...", "options": {"A": "Fitur pemindai wajah (Face Unlock) untuk membuka layar smartphone", "B": "Mengirim pesan suara melalui aplikasi radio FM", "C": "Menghitung total nilai belanja menggunakan kalkulator beras", "D": "Mengetik naskah dokumen pada aplikasi pengolah kata", "E": "Menyalin file lagu dari flashdisk ke komputer"}, "key": "A"}, {"id": 8, "type": "pg", "text": "Istilah \"Dataset\" dalam dunia data science dan kecerdasan buatan merujuk pada...", "options": {"A": "Kumpulan data atau file yang digunakan untuk melatih dan menguji model", "B": "Satu baris rumus matematika yang rumit", "C": "Jenis kabel konektor yang dipasang di belakang server", "D": "Password rahasia untuk masuk ke menu BIOS", "E": "Kartu garansi perangkat komputer"}, "key": "A"}, {"id": 9, "type": "pg", "text": "Teknologi AI yang memiliki kemampuan memproses, memahami, dan membalas bahasa manusia dalam bentuk teks disebut...", "options": {"A": "Natural Language Processing (NLP)", "B": "Computer Graphics", "C": "Audio Synthesizer", "D": "Network File System", "E": "Power Supply Unit"}, "key": "A"}, {"id": 10, "type": "pg", "text": "Contoh layanan kecerdasan buatan berbasis teks yang sering digunakan untuk membantu mencari jawaban atau referensi adalah...", "options": {"A": "ChatGPT atau Google Gemini", "B": "WinRAR", "C": "Adobe Photoshop", "D": "VLC Media Player", "E": "Corel Draw"}, "key": "A"}, {"id": 11, "type": "pg", "text": "Perintah atau instruksi teks yang kita ketikkan saat meminta bantuan kepada kecerdasan buatan (seperti ChatGPT) dikenal dengan istilah...", "options": {"A": "Prompt", "B": "Syntax Error", "C": "Patch Code", "D": "Hyperlink", "E": "Bandwidth"}, "key": "A"}, {"id": 12, "type": "pg", "text": "Agar kecerdasan buatan (AI) memberikan jawaban yang tepat dan sesuai harapan, cara menulis instruksi (prompt) yang benar adalah...", "options": {"A": "Menuliskan instruksi dengan peran, konteks, dan tujuan tugas yang spesifik", "B": "Menulis kalimat sesingkat mungkin tanpa konteks yang jelas", "C": "Menggunakan banyak simbol acak yang tidak dapat dibaca", "D": "Mengosongkan kotak chat dan menekan tombol kirim berulang kali", "E": "Menyalin seluruh isi harddisk ke dalam kotak obrolan"}, "key": "A"}, {"id": 13, "type": "pg", "text": "Kondisi ketika model kecerdasan buatan memberikan jawaban yang terdengar sangat meyakinkan padahal informasinya keliru atau mengarang bebas disebut...", "options": {"A": "Halusinasi AI (AI Hallucination)", "B": "Lagging", "C": "Overclocking", "D": "Booting error", "E": "Buffering"}, "key": "A"}, {"id": 14, "type": "pg", "text": "Kecerdasan buatan cerdas yang tidak hanya menjawab obrolan tetapi juga mampu menjalankan tindakan nyata (seperti browsing web, mengecek suhu, atau menghitung data) disebut...", "options": {"A": "AI Agent", "B": "Antivirus scanner", "C": "File compressor", "D": "Screen recorder", "E": "Display driver"}, "key": "A"}, {"id": 15, "type": "pg", "text": "Alur kerja dasar pada AI Agent yang menggabungkan proses \"berpikir merencanakan solusi\" dan \"melakukan tindakan eksekusi alat\" dikenal dengan konsep...", "options": {"A": "Reasoning and Acting (ReAct)", "B": "Copy and Paste", "C": "Drag and Drop", "D": "Cut and Save", "E": "Plug and Play"}, "key": "A"}, {"id": 16, "type": "pg", "text": "Untuk menghubungkan program Python yang kita buat dengan layanan kecerdasan buatan (seperti Google AI Studio), kita membutuhkan kunci otentikasi berupa...", "options": {"A": "API Key", "B": "Nomor seri monitor", "C": "Kode voucher belanja", "D": "Alamat IP lokal router", "E": "Mac Address printer"}, "key": "A"}, {"id": 17, "type": "pg", "text": "Langkah keamanan yang paling benar saat menyimpan API Key dalam proyek pemrograman adalah...", "options": {"A": "Menyimpannya di file konfigurasi rahasia (.env) dan tidak membagikannya ke publik", "B": "Menuliskan API Key secara terang-terangan di status media sosial", "C": "Mencetak API Key di selembar kertas lalu menempelkannya di pintu kelas", "D": "Menjadikan API Key sebagai judul file skripsi", "E": "Mengirim API Key ke grup obrolan umum"}, "key": "A"}, {"id": 18, "type": "pg", "text": "Aplikasi pustaka Python yang sangat populer digunakan oleh siswa untuk membuat tampilan website interaktif AI secara cepat tanpa perlu coding HTML/CSS rumit adalah...", "options": {"A": "Streamlit", "B": "Notepad", "C": "Paint", "D": "Command Prompt", "E": "File Explorer"}, "key": "A"}, {"id": 19, "type": "pg", "text": "Perintah yang diketikkan pada terminal / CMD untuk menjalankan file script aplikasi web Streamlit bernama \"app.py\" adalah...", "options": {"A": "streamlit run app.py", "B": "python run app.py", "C": "open website app.py", "D": "start chrome app.py", "E": "compile app.py"}, "key": "A"}, {"id": 20, "type": "pg", "text": "Fungsi dalam Streamlit yang digunakan untuk menampilkan judul besar di halaman utama aplikasi web adalah...", "options": {"A": "st.title()", "B": "st.close()", "C": "st.exit()", "D": "st.delete()", "E": "st.shutdown()"}, "key": "A"}, {"id": 21, "type": "pg", "text": "Fungsi dalam Streamlit yang digunakan untuk menampilkan tulisan atau teks informasi biasa kepada pengguna adalah...", "options": {"A": "st.write()", "B": "st.format()", "C": "st.reboot()", "D": "st.download()", "E": "st.kill()"}, "key": "A"}, {"id": 22, "type": "pg", "text": "Tombol klik pada antarmuka web Streamlit yang dapat memicu sebuah aksi ketika ditekan oleh pengguna dibuat menggunakan perintah...", "options": {"A": "st.button()", "B": "st.slider()", "C": "st.checkbox()", "D": "st.radio()", "E": "st.selectbox()"}, "key": "A"}, {"id": 23, "type": "pg", "text": "Saat membuat aplikasi chatbot cerdas, siswa perlu menguji aplikasi dengan berbagai pertanyaan yang berbeda. Kegiatan menguji aplikasi ini bertujuan untuk...", "options": {"A": "Memastikan aplikasi berjalan lancar, tidak mudah error, dan menjawab dengan tepat", "B": "Membuat baterai laptop cepat habis", "C": "Menghapus seluruh baris program yang sudah diketik", "D": "Mengubah warna casing komputer", "E": "Mengunci koneksi Wi-Fi sekolah"}, "key": "A"}, {"id": 24, "type": "pg", "text": "Platform gratis yang sangat sering digunakan oleh programmer untuk menyimpan source code proyek, mengelola versi kode, dan berkolaborasi tim adalah...", "options": {"A": "GitHub", "B": "TikTok", "C": "Netflix", "D": "Spotify", "E": "Instagram"}, "key": "A"}, {"id": 25, "type": "pg", "text": "Sikap berkarakter \"Berbudi Luhur\" yang wajib diterapkan siswa TKJ saat menggunakan teknologi kecerdasan buatan (AI) adalah...", "options": {"A": "Menggunakan AI secara bijak, jujur, menghargai privasi data, dan tidak menjiplak karya orang lain", "B": "Memanfaatkan AI untuk menyebarkan berita bohong (hoaks) dan merugikan orang lain", "C": "Menggunakan AI untuk membobol sistem keamanan komputer milik instansi tanpa izin", "D": "Mengklaim seluruh kode buatan AI 100% sebagai buatan tangan sendiri tanpa belajar", "E": "Menjual data pribadi milik teman sekelas ke internet bebas"}, "key": "A"}, {"id": 26, "type": "pg", "text": "Fungsi bawaan Streamlit yang dirancang khusus untuk membuat kotak input chat interaktif di bagian bawah antarmuka aplikasi chatbot adalah...", "options": {"A": "st.chat_input()", "B": "st.number_input()", "C": "st.color_picker()", "D": "st.camera_input()", "E": "st.audio()"}, "key": "A"}, {"id": 27, "type": "pg", "text": "Batas tanggal atau waktu di mana model AI tidak lagi mengetahui informasi atau peristiwa dunia terkini setelah proses pelatihannya selesai disebut...", "options": {"A": "Knowledge cutoff", "B": "Time limit router", "C": "Ping timeout", "D": "Session expired", "E": "Gateway shutdown"}, "key": "A"}, {"id": 28, "type": "pg", "text": "Satuan potongan teks atau karakter terkecil yang dihitung dan diproses oleh Large Language Model saat menerima input pesan disebut...", "options": {"A": "Token", "B": "Pixel", "C": "Hertz", "D": "Volt", "E": "Ohm"}, "key": "A"}, {"id": 29, "type": "pg", "text": "Fitur dalam Python yang berfungsi membuat ruang lingkungan kerja terisolasi agar paket pustaka proyek AI tidak bentrok dengan program lain adalah...", "options": {"A": "Virtual Environment (venv)", "B": "Recycle Bin", "C": "Disk Cleanup", "D": "Safe Mode", "E": "Task Manager"}, "key": "A"}, {"id": 30, "type": "pg", "text": "File teks standar yang biasa diletakkan di repositori GitHub untuk mencantumkan daftar pustaka pendukung agar proyek dapat diinstal dengan satu perintah \"pip install -r\" adalah...", "options": {"A": "requirements.txt", "B": "passwords.docx", "C": "config.exe", "D": "setup.mp3", "E": "license.pdf"}, "key": "A"}, {"id": 31, "type": "pg", "text": "Kondisi ketika model kecerdasan buatan menghafal data latihan terlalu sempurna sehingga gagal saat memprediksi data baru di lapangan disebut...", "options": {"A": "Overfitting", "B": "Underclocking", "C": "High latency", "D": "Packet loss", "E": "No signal"}, "key": "A"}, {"id": 32, "type": "pg", "text": "Untuk menjaga privasi data instansi, tindakan yang TIDAK boleh dilakukan saat menggunakan layanan AI publik di internet adalah...", "options": {"A": "Memasukkan username, password server, atau data rahasia siswa ke dalam kolom prompt AI", "B": "Meminta AI menjelaskan materi pelajaran jaringan komputer", "C": "Menanyakan rekomendasi script Python untuk mengolah teks", "D": "Meminta contoh format tabel perbandingan perangkat jaringan", "E": "Mencari tutorial instalasi server Linux"}, "key": "A"}, {"id": 33, "type": "pg", "text": "Mengapa model AI seperti chatbot perlu diberi panduan kepribadian awal (System Prompt / Persona) saat baru diaktifkan?", "options": {"A": "Agar AI memahami perannya dan merespons dengan gaya bahasa yang tepat sesuai kebutuhan aplikasi", "B": "Supaya komputer tidak mati mendadak saat menjalankan program", "C": "Untuk menghemat kapasitas RAM laptop secara drastis", "D": "Agar tampilan monitor komputer menjadi lebih terang", "E": "Supaya script Python bisa berjalan tanpa koneksi listrik"}, "key": "A"}, {"id": 34, "type": "pg", "text": "File panduan dokumentasi utama berformat markdown yang wajib disertakan pada repositori GitHub agar pengguna lain paham cara mengoperasikan proyek AI disebut...", "options": {"A": "README.md", "B": "index.html", "C": "system32.dll", "D": "virus.bat", "E": "boot.ini"}, "key": "A"}, {"id": 35, "type": "pg", "text": "Sebagai siswa SMK yang berkarakter \"Cerdas dan Disiplin\" (5NK), cara terbaik memanfaatkan AI dalam menyelesaikan tugas proyek sekolah adalah...", "options": {"A": "Menjadikan AI sebagai asisten belajar untuk memahami konsep logika dan memeriksa kesalahan kode program", "B": "Menyalin 100% hasil ketikan AI tanpa dibaca dan langsung mengumpulkannya ke guru", "C": "Menyuruh AI mengerjakan seluruh tugas kelompok sementara siswa bermain game", "D": "Membuat aplikasi AI untuk mengubah nilai rapor teman sekelas", "E": "Menolak mempelajari teknologi AI sama sekali karena dianggap sulit"}, "key": "A"}, {"id": 36, "type": "esai", "text": "Sebutkan 3 contoh pemanfaatan teknologi Kecerdasan Buatan (Artificial Intelligence) yang sering kita jumpai dalam kehidupan sehari-hari!", "rubrik": "3 contoh tepat pemanfaatan AI sehari-hari (Face Unlock, algoritma FYP TikTok, asisten virtual Google/Siri, Google Maps, dll). Tiap contoh berbobot 2 poin.", "max_score": 6}, {"id": 37, "type": "esai", "text": "Jelaskan mengapa kita harus selalu mengecek ulang (verifikasi) kebenaran jawaban yang diberikan oleh AI sebelum menggunakannya dalam tugas atau pekerjaan!", "rubrik": "Urgensi verifikasi: Menghindari bahaya AI Hallucination (AI mengarang fakta), menjaga keakuratan dan orisinalitas data sebelum dipublikasikan.", "max_score": 6}, {"id": 38, "type": "esai", "text": "Apa yang dimaksud dengan \"Prompt\" dalam penggunaan AI, dan sebutkan 2 hal penting yang perlu disertakan dalam prompt agar hasil jawaban AI memuaskan!", "rubrik": "Pengertian Prompt: Instruksi atau teks masukan yang diberikan kepada AI. 2 hal penting: peran spesifik (Role) dan batasan konteks/tujuan instruksi yang jelas.", "max_score": 6}, {"id": 39, "type": "esai", "text": "Sebutkan fungsi utama dari library Streamlit pada Python saat siswa membangun proyek aplikasi AI!", "rubrik": "Fungsi Streamlit: Framework Python untuk membuat antarmuka web (UI Web/Dashboard) interaktif secara instan dan native tanpa perlu koding HTML/CSS terpisah.", "max_score": 6}, {"id": 40, "type": "esai", "text": "Jelaskan mengapa menjaga kerahasiaan API Key sangat penting saat kita mengunggah proyek AI ke platform publik seperti GitHub!", "rubrik": "Kerahasiaan API Key: Mencegah pencurian kuota/saldo komputasi oleh pihak asing, kebocoran akun privat, atau pemblokiran token oleh penyedia API. Wajib diamankan via .env / secrets.", "max_score": 6}]}, {"id": "exam_keamanan_jaringan_12_tkj", "title": "Evaluasi Mandiri: Keamanan Jaringan Terintegrasi 5NK - Kelas XII TKJ", "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai K3LH & Keamanan Siber. Uji pemahaman CIA Triad & firewall.", "questions": [{"id": 1, "type": "pg", "text": "Tiga pilar utama dalam prinsip dasar keamanan informasi (CIA Triad) yang wajib dipahami oleh teknisi keamanan jaringan adalah...", "options": {"A": "Confidentiality, Integrity, dan Availability", "B": "Cisco, Intel, dan Apple", "C": "Client, Interface, dan Address", "D": "Central, Internet, dan Application", "E": "Command, Input, dan Action"}, "key": "A"}, {"id": 2, "type": "pg", "text": "Prinsip keamanan \"Confidentiality\" (Kerahasiaan) dalam keamanan jaringan memastikan bahwa...", "options": {"A": "Data hanya dapat diakses dan dibaca oleh pihak yang memiliki hak otorisasi sah", "B": "Server jaringan harus selalu menyala 24 jam tanpa jeda pemeliharaan", "C": "Data tidak pernah bertambah ukurannya di dalam media penyimpanan", "D": "Kecepatan download internet selalu stabil di angka maksimal", "E": "Kabel jaringan terpasang lurus tanpa ada belokan fisik"}, "key": "A"}, {"id": 3, "type": "pg", "text": "Dokumen resmi yang mengatur hak akses, larangan penggunaan perangkat, dan standar operasional penggunaan internet di suatu instansi disebut...", "options": {"A": "Kebijakan Penggunaan Jaringan (Network Security Policy)", "B": "Buku manual motherboard komputer", "C": "Kartu identitas siswa (KTP)", "D": "Kuitansi pembayaran langganan ISP", "E": "Daftar harga perangkat keras jaringan"}, "key": "A"}, {"id": 4, "type": "pg", "text": "Standar manajemen keamanan informasi internasional yang dijadikan rujukan baku dalam menyusun SOP keamanan jaringan di industri (DUDI) adalah...", "options": {"A": "ISO 27001", "B": "ISO 9001", "C": "IEEE 802.11", "D": "EIA/TIA 568B", "E": "SNI 1900"}, "key": "A"}, {"id": 5, "type": "pg", "text": "Perangkat jaringan atau software yang berfungsi sebagai pembatas dan penyaring lalu lintas data antara jaringan lokal yang aman dan internet luar disebut...", "options": {"A": "Firewall", "B": "Repeater", "C": "Passive Splitter", "D": "Crimping Tool", "E": "RJ-45 Barrel"}, "key": "A"}, {"id": 6, "type": "pg", "text": "Zona keamanan jaringan terisolasi yang digunakan untuk menempatkan server publik (seperti Web Server atau Mail Server) agar jaringan LAN internal tetap terlindungi disebut...", "options": {"A": "DMZ (Demilitarized Zone)", "B": "Hotspot Zone", "C": "Broadband Area", "D": "Public SSID", "E": "Default Gateway"}, "key": "A"}, {"id": 7, "type": "pg", "text": "Tipe firewall yang mampu memeriksa status sesi koneksi aktif (established/related) dan memastikan paket data yang masuk merupakan balasan sah dari permintaan klien disebut...", "options": {"A": "Stateful Firewall", "B": "Stateless Packet Filter biasa", "C": "Circuit Breaker Switch", "D": "Manual Bypass Router", "E": "Static Route Table"}, "key": "A"}, {"id": 8, "type": "pg", "text": "Perintah firewall Linux bawaan yang sangat populer dan sering dikonfigurasi oleh siswa pada Debian Server menggunakan antarmuka command line adalah...", "options": {"A": "iptables atau UFW (Uncomplicated Firewall)", "B": "diskpart", "C": "chkdsk", "D": "ipconfig /all", "E": "format c:"}, "key": "A"}, {"id": 9, "type": "pg", "text": "Pada aturan firewall iptables, aksi atau target yang digunakan untuk menolak paket data secara diam-diam tanpa mengirimkan pesan balasan ke pengirim adalah...", "options": {"A": "DROP", "B": "ACCEPT", "C": "REJECT", "D": "LOG", "E": "FORWARD"}, "key": "A"}, {"id": 10, "type": "pg", "text": "Mekanisme keamanan jaringan di mana port administratif (misal SSH port 22) ditutup secara default, dan hanya akan terbuka setelah klien mengirim urutan paket ke port tertentu disebut...", "options": {"A": "Port Knocking", "B": "Port Mirroring", "C": "Port Forwarding", "D": "Port Aggregation", "E": "Port Trunking"}, "key": "A"}, {"id": 11, "type": "pg", "text": "Kerangka kerja pengamanan akses jaringan yang terdiri dari Authentication, Authorization, dan Accounting dikenal dengan singkatan...", "options": {"A": "AAA Framework", "B": "OSI Model", "C": "TCP/IP Suite", "D": "DDoS Attack", "E": "DNS Server"}, "key": "A"}, {"id": 12, "type": "pg", "text": "Protokol standar industri yang digunakan untuk menghubungkan router gateway dengan server autentikasi akun pengguna secara terpusat adalah...", "options": {"A": "RADIUS (Remote Authentication Dial-In User Service)", "B": "FTP (File Transfer Protocol)", "C": "TFTP (Trivial FTP)", "D": "Telnet Port 23", "E": "SNMP v1"}, "key": "A"}, {"id": 13, "type": "pg", "text": "Halaman web khusus yang otomatis muncul saat pengguna pertama kali terhubung ke jaringan Wi-Fi untuk meminta login username dan password disebut...", "options": {"A": "Captive Portal", "B": "Dashboard Windows", "C": "Search Engine Google", "D": "Command Line Interface", "E": "BIOS Setup Screen"}, "key": "A"}, {"id": 14, "type": "pg", "text": "Sistem keamanan jaringan yang bertugas memantau lalu lintas data secara real-time dan memberikan peringatan (alert) saat mendeteksi adanya aktivitas mencurigakan disebut...", "options": {"A": "Intrusion Detection System (IDS)", "B": "Uninterruptible Power Supply (UPS)", "C": "Network Attached Storage (NAS)", "D": "Content Delivery Network (CDN)", "E": "Domain Name System (DNS)"}, "key": "A"}, {"id": 15, "type": "pg", "text": "Perbedaan mendasar antara sistem IDS (Detection) dan IPS (Prevention) adalah...", "options": {"A": "IPS dapat mengambil tindakan langsung memblokir paket berbahaya secara otomatis saat serangan terdeteksi", "B": "IDS hanya bisa dipasang pada kabel fiber optic", "C": "IPS tidak memerlukan pasokan daya listrik", "D": "IDS berfungsi mempercepat kapasitas transfer bandwidth internet", "E": "IPS tidak memiliki file konfigurasi log sama sekali"}, "key": "A"}, {"id": 16, "type": "pg", "text": "Perangkat lunak open-source berbasis Linux yang sangat populer digunakan sebagai engine IDS/IPS berbasis signature rule adalah...", "options": {"A": "Snort / Suricata", "B": "Microsoft Excel", "C": "VLC Media Player", "D": "Adobe Acrobat Reader", "E": "Google Chrome"}, "key": "A"}, {"id": 17, "type": "pg", "text": "Serangan siber berupa pengiriman paket ping (ICMP Echo Request) dalam jumlah raksasa secara terus-menerus untuk melumpuhkan server korban disebut...", "options": {"A": "Ping Flood / ICMP Denial of Service", "B": "SQL Injection", "C": "Cross-Site Scripting (XSS)", "D": "Phishing Email", "E": "Password Cracking"}, "key": "A"}, {"id": 18, "type": "pg", "text": "Kegiatan pengamanan perangkat jaringan (router/switch/server) dengan mematikan layanan yang tidak terpakai, menutup port berbahaya, dan memperbarui konfigurasi disebut...", "options": {"A": "Hardening", "B": "Defragmenting", "C": "Overclocking", "D": "Crimping", "E": "Tethering"}, "key": "A"}, {"id": 19, "type": "pg", "text": "Mengapa protokol Telnet (port 23) sangat dilarang digunakan untuk mengelola server di lingkungan industri dan wajib digantikan oleh SSH (port 22)?", "options": {"A": "Karena Telnet mengirimkan username dan password dalam bentuk plain-text tanpa enkripsi sehingga mudah disadap", "B": "Karena Telnet hanya bisa dijalankan pada sistem operasi Mac OS", "C": "Karena kabel LAN tidak mendukung pengiriman data port 23", "D": "Karena Telnet membutuhkan biaya lisensi tahunan yang mahal", "E": "Karena tampilan layar Telnet berwarna hitam dan putih"}, "key": "A"}, {"id": 20, "type": "pg", "text": "Layanan keamanan pada server Linux yang bertugas memblokir otomatis alamat IP yang berulang kali gagal login via SSH dalam waktu singkat adalah...", "options": {"A": "Fail2Ban", "B": "Samba Server", "C": "Apache Web", "D": "CUPS Printer", "E": "Postfix Mail"}, "key": "A"}, {"id": 21, "type": "pg", "text": "Dalam bidang kriptografi, jenis enkripsi yang menggunakan dua kunci berbeda (Public Key untuk enkripsi dan Private Key untuk dekripsi) disebut...", "options": {"A": "Kriptografi Asimetris (Asymmetric Encryption)", "B": "Kriptografi Simetris biasa", "C": "Enkripsi Sandi Caesar", "D": "Hashing Satu Arah (MD5)", "E": "Substitusi Huruf Monoalfabetik"}, "key": "A"}, {"id": 22, "type": "pg", "text": "Protokol keamanan komunikasi web yang menggunakan sertifikat digital (SSL/TLS) untuk mengenkripsi lalu lintas transaksi pengguna sehingga URL diawali \"https://\" berjalan pada port...", "options": {"A": "443", "B": "80", "C": "21", "D": "25", "E": "53"}, "key": "A"}, {"id": 23, "type": "pg", "text": "Pihak atau otoritas tepercaya yang bertugas menerbitkan dan memverifikasi sertifikat digital keamanan SSL/TLS dikenal dengan sebutan...", "options": {"A": "Certificate Authority (CA)", "B": "Internet Service Provider (ISP)", "C": "Network Operating Center (NOC)", "D": "Web Administrator Group", "E": "Cloud Backup Engine"}, "key": "A"}, {"id": 24, "type": "pg", "text": "Teknologi jaringan yang menciptakan jalur komunikasi terowongan (tunnel) terenkripsi melalui internet publik agar cabang perusahaan dapat terhubung aman ke kantor pusat adalah...", "options": {"A": "Virtual Private Network (VPN)", "B": "Wide Area Application Services", "C": "Dynamic Host Configuration", "D": "Address Resolution Protocol", "E": "Carrier Sense Multiple Access"}, "key": "A"}, {"id": 25, "type": "pg", "text": "Topologi VPN yang menghubungkan seluruh jaringan lokal kantor cabang (Branch) ke kantor pusat (HQ) secara permanen antar-router gateway disebut...", "options": {"A": "Site-to-Site VPN", "B": "Remote Access Client VPN", "C": "Dial-Up Connection", "D": "Point-to-Point Bluetooth", "E": "Ad-Hoc Wireless"}, "key": "A"}, {"id": 26, "type": "pg", "text": "Protokol VPN modern open-source yang sangat populer digunakan oleh karyawan untuk akses remote (WFH) ke jaringan kantor karena aman dan fleksibel adalah...", "options": {"A": "OpenVPN / WireGuard", "B": "HTTP biasa", "C": "POP3", "D": "TFTP", "E": "NetBIOS"}, "key": "A"}, {"id": 27, "type": "pg", "text": "Aktivitas pengujian keamanan sistem jaringan dengan mencari titik kelemahan atau celah keamanan (vulnerability scanning) menggunakan software seperti Nmap dilakukan oleh teknisi beretika...", "options": {"A": "White Hat Hacker (Ethical Hacker)", "B": "Black Hat Hacker (Cracker)", "C": "Carding Specialist", "D": "Malware Creator", "E": "Data Ransomware Broker"}, "key": "A"}, {"id": 28, "type": "pg", "text": "Perintah scanning jaringan pada terminal Linux yang digunakan untuk memeriksa status port yang terbuka pada server target (192.168.10.1) menggunakan Nmap adalah...", "options": {"A": "nmap 192.168.10.1", "B": "ping 192.168.10.1 -t", "C": "traceroute google.com", "D": "shutdown -h now", "E": "reboot"}, "key": "A"}, {"id": 29, "type": "pg", "text": "Dalam simulasi alur kerja keamanan siber enterprise, tim yang bertugas mempertahankan sistem, memonitor insiden, dan menganalisis log server disebut...", "options": {"A": "Blue Team (Tim Bertahan)", "B": "Red Team (Tim Penyerang)", "C": "Helpdesk Biasa", "D": "Sales Team", "E": "Kurir Ekspedisi"}, "key": "A"}, {"id": 30, "type": "pg", "text": "Dokumen laporan teknis komprehensif yang memuat topologi final, tabel IP, konfigurasi firewall, dan panduan keamanan yang diserahkan ke klien proyek TEFA disebut...", "options": {"A": "As-Built Document / SOP Keamanan Jaringan", "B": "Brosur promosi pendaftaran siswa baru", "C": "Daftar piket kebersihan kelas mingguan", "D": "Nota belanja peralatan kantin", "E": "Jurnal cerita fiksi ilmiah"}, "key": "A"}, {"id": 31, "type": "pg", "text": "Prinsip \"Least Privilege\" dalam manajemen hak akses jaringan dan sistem operasi server memiliki makna...", "options": {"A": "Setiap pengguna atau layanan hanya diberikan hak akses seminimal mungkin yang diperlukan untuk tugasnya", "B": "Memberikan hak akses Superuser / Root kepada seluruh siswa tanpa terkecuali", "C": "Menghapus seluruh akun pengguna agar server tidak bisa diakses siapa pun", "D": "Menggunakan password yang sama persis untuk semua server di sekolah", "E": "Mematikan fitur password agar login bisa lebih cepat"}, "key": "A"}, {"id": 32, "type": "pg", "text": "Jenis serangan siber di mana pelaku menyamar sebagai pihak tepercaya (seperti bank atau admin sekolah) melalui link email/pesan palsu untuk mencuri password disebut...", "options": {"A": "Phishing", "B": "Deface", "C": "DDoS Attack", "D": "Buffer Overflow", "E": "Ransomware"}, "key": "A"}, {"id": 33, "type": "pg", "text": "Alasan utama mengapa server Linux wajib selalu diperbarui secara berkala menggunakan perintah \"apt update && apt upgrade\" adalah...", "options": {"A": "Untuk menambal celah kerentanan keamanan (security patches) yang baru ditemukan oleh pengembang", "B": "Agar kapasitas harddisk server bertambah secara otomatis", "C": "Supaya warna tampilan desktop Linux berubah menjadi lebih menarik", "D": "Untuk mengubah merk prosesor komputer", "E": "Agar server tidak perlu dihubungkan ke sumber listrik"}, "key": "A"}, {"id": 34, "type": "pg", "text": "Sikap berkarakter \"Budi Luhur\" yang wajib dijunjung tinggi oleh siswa SMK TKJ saat memiliki akses hak istimewa (root) pada server sekolah adalah...", "options": {"A": "Menjaga kerahasiaan kredensial, tidak mengintip data pribadi guru/siswa, dan tidak merusak sistem", "B": "Mengubah nilai rapor teman sekelas yang tersimpan di server", "C": "Menjual akses password Wi-Fi guru kepada pihak luar sekolah", "D": "Mematikan server saat jam ujian berlangsung sebagai bentuk lelucon", "E": "Mengunggah script berbahaya untuk merusak database sekolah"}, "key": "A"}, {"id": 35, "type": "pg", "text": "Penerapan nilai karakter \"Cinta Tanah Air\" (5NK) dalam kompetensi Keamanan Jaringan ditunjukkan dengan kesadaran siswa untuk...", "options": {"A": "Membangun sistem pertahanan siber yang tangguh demi melindungi data dan kedaulatan digital bangsa dari serangan luar", "B": "Membeli seluruh perangkat keras dari luar negeri tanpa mempelajari cara kerjanya", "C": "Meretas website lembaga pemerintah demi mendapatkan ketenaran di media sosial", "D": "Mengabaikan standar keamanan siber nasional karena menganggapnya tidak penting", "E": "Membocorkan data kependudukan masyarakat ke forum hacker gelap"}, "key": "A"}, {"id": 36, "type": "esai", "text": "Jelaskan 3 pilar utama dalam prinsip dasar keamanan informasi (CIA Triad: Confidentiality, Integrity, Availability) beserta contoh penerapannya pada jaringan sekolah!", "rubrik": "3 pilar CIA Triad: Confidentiality (Kerahasiaan akses), Integrity (Keaslian/keutuhan data tanpa manipulasi), Availability (Ketersediaan server/jaringan tanpa down). Sertakan contoh penerapan di sekolah.", "max_score": 6}, {"id": 37, "type": "esai", "text": "Jelaskan perbedaan fungsi utama antara Firewall dengan Intrusion Detection System (IDS) dalam mengamankan lalu lintas jaringan komputer!", "rubrik": "Firewall vs IDS: Firewall bertindak sebagai gerbang filter penyaring paket (blokir/izinkan berdasarkan port/IP), sedangkan IDS bertindak sebagai pengawas lalu lintas pasif yang menganalisis anomali serangan dan memicu alert peringatan.", "max_score": 6}, {"id": 38, "type": "esai", "text": "Mengapa protokol Telnet dan HTTP polos (port 80) dianggap tidak aman, dan mengapa wajib digantikan dengan SSH dan HTTPS pada manajemen server industri?", "rubrik": "Kelemahan Telnet/HTTP: Berjalan secara teks polos (clear-text) tanpa enkripsi sehingga rentan penyadapan (packet sniffing / MITM). SSH & HTTPS menggunakan enkripsi kriptografi kuat (SSL/TLS).", "max_score": 6}, {"id": 39, "type": "esai", "text": "Jelaskan fungsi dari teknologi Virtual Private Network (VPN) dan sebutkan perbedaan mendasar antara Site-to-Site VPN dengan Remote Access VPN!", "rubrik": "Fungsi VPN: Membangun terowongan terenkripsi (encrypted tunnel) melalui jaringan publik. Site-to-Site menghubungkan dua kantor/jaringan fisik tetap, sedangkan Remote Access memungkinkan pengguna/laptop terhubung ke jaringan kantor dari mana saja.", "max_score": 6}, {"id": 40, "type": "esai", "text": "Sebagai calon teknisi Keamanan Jaringan SMK Kartika X-1 yang berlandaskan karakter 5NK, sebutkan 2 wujud nyata sikap \"Budi Luhur\" dan \"Cinta Tanah Air\" saat kamu dipercaya mengelola infrastruktur jaringan penting!", "rubrik": "Penerapan 5NK: Sikap 'Budi Luhur' diwujudkan dengan menjaga kerahasiaan password admin dan tidak menyalahgunakan akses jaringan. 'Cinta Tanah Air' diwujudkan dengan mengamankan aset data sekolah/bangsa dari serangan peretasan siber.", "max_score": 6}]}];
+
+    /* ===== DATABASE LOKAL (IndexedDB) ===== */
+    const DB_NAME = 'CBT_Mobile_DB_v2';
+    const DB_VER = 2;
+    let db = null;
+
+    function initDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VER);
+        req.onupgradeneeded = (e) => {
+          const d = e.target.result;
+          if (!d.objectStoreNames.contains('exams')) {
+            d.createObjectStore('exams', { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+        req.onerror = (e) => reject(e);
+      });
+    }
+
+    function dbGetAll() {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('exams', 'readonly');
+        const req = tx.objectStore('exams').getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = (e) => reject(e);
+      });
+    }
+
+    function dbSave(item) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('exams', 'readwrite');
+        const req = tx.objectStore('exams').put(item);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e);
+      });
+    }
+
+    function dbDelete(id) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('exams', 'readwrite');
+        const req = tx.objectStore('exams').delete(id);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e);
+      });
+    }
+
+    /* ===== STATE APLIKASI ===== */
+    let currentExam = null;
+    let activeQuestions = []; 
+    let currentQIndex = 0; 
+    let answers = {}; // { 0: 'B', 35: 'Jawaban esai...' }
+
+    /* Helper Shuffle Array Fisher-Yates */
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ===== INIT ===== */
+    window.addEventListener('DOMContentLoaded', async () => {
+      await initDB();
+      const all = await dbGetAll();
+      
+      // Auto seed 4 paket resmi jika belum ada
+      for (const ex of EMBEDDED_EXAMS) {
+        const exists = all.some(e => e.id === ex.id);
+        if (!exists) {
+          await dbSave(ex);
+        }
+      }
+      renderCatalog();
+    });
+
+    /* ===== ROUTER TAMPILAN ===== */
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+
+      const headerTitle = document.getElementById('headerTitle');
+      const headerBadge = document.getElementById('headerBadge');
+      const headerActions = document.getElementById('headerActions');
+
+      if (viewId === 'viewCatalog') {
+        headerTitle.innerText = 'SIMULASI CBT';
+        headerBadge.innerText = 'KATALOG';
+        headerActions.innerHTML = `<button class="btn btn-subtle" onclick="openAdminModal()">+ Tambah Mapel</button>`;
+      } else if (viewId === 'viewExam') {
+        headerTitle.innerText = currentExam.title;
+        headerBadge.innerText = 'PENGERJAAN';
+        headerActions.innerHTML = `<button class="btn btn-subtle" onclick="confirmExitExam()">✕ Keluar</button>`;
+      } else if (viewId === 'viewPreview') {
+        headerTitle.innerText = 'REVIEW JAWABAN';
+        headerBadge.innerText = 'SELESAI';
+        headerActions.innerHTML = '';
+      } else if (viewId === 'viewResult') {
+        headerTitle.innerText = 'HASIL SIMULASI';
+        headerBadge.innerText = 'EVALUASI';
+        headerActions.innerHTML = '';
+      }
+    }
+
+    /* ===== VIEW 1: KATALOG ===== */
+    async function renderCatalog() {
+      const exams = await dbGetAll();
+      const list = document.getElementById('examList');
+      list.innerHTML = '';
+
+      exams.forEach(ex => {
+        const pgCount = ex.questions.filter(q => q.type !== 'esai').length;
+        const esaiCount = ex.questions.filter(q => q.type === 'esai').length;
+
+        const card = document.createElement('div');
+        card.className = 'exam-card';
+        card.innerHTML = `
+          <div>
+            <div class="exam-card-title">${escapeHtml(ex.title)}</div>
+            <div class="exam-card-meta">
+              <span>${pgCount} PG (Acak Dinamis)</span>
+              <span>${esaiCount} Esai Uraian</span>
+              <span>Standar 5NK</span>
+            </div>
+          </div>
+          <div class="exam-card-actions">
+            <button class="btn btn-danger" style="font-size: 11px; padding: 4px 8px;" onclick="deleteExam('${ex.id}', event)">Hapus</button>
+            <button class="btn btn-primary" onclick="startExam('${ex.id}')">Mulai Simulasi &rarr;</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+      showView('viewCatalog');
+    }
+
+    async function deleteExam(id, e) {
+      e.stopPropagation();
+      if (confirm('Yakin ingin menghapus paket simulasi ini?')) {
+        await dbDelete(id);
+        renderCatalog();
+      }
+    }
+
+    /* ===== VIEW 2: PENGERJAAN SOAL (1 PER 1) ===== */
+    async function startExam(id) {
+      const all = await dbGetAll();
+      currentExam = all.find(e => e.id === id);
+      if (!currentExam) return;
+
+      // 1. Pisahkan PG dan Esai
+      const rawPg = currentExam.questions.filter(q => q.type !== 'esai');
+      const rawEsai = currentExam.questions.filter(q => q.type === 'esai');
+
+      // 2. Acak urutan soal Pilihan Ganda (Anti-Cheating Shuffle)
+      // Opsi jawaban (A-E) juga ikut diacak posisinya tapi pemetaan kunci tetap presisi
+      const shuffledPg = shuffleArray(rawPg).map(origQ => {
+        const optKeys = Object.keys(origQ.options).filter(k => origQ.options[k]);
+        const shuffledKeys = shuffleArray(optKeys);
+        
+        const standardLabels = ['A', 'B', 'C', 'D', 'E'];
+        const newOptions = {};
+        let newCorrectKey = '';
+
+        shuffledKeys.forEach((oldKey, idx) => {
+          const newLabel = standardLabels[idx];
+          newOptions[newLabel] = origQ.options[oldKey];
+          if (oldKey === origQ.key) {
+            newCorrectKey = newLabel;
+          }
+        });
+
+        return {
+          originalId: origQ.id,
+          type: 'pg',
+          text: origQ.text,
+          options: newOptions,
+          key: newCorrectKey
+        };
+      });
+
+      // 3. Soal Esai ditempatkan di bagian akhir secara terstruktur
+      const formattedEsai = rawEsai.map((origE, idx) => ({
+        originalId: origE.id || (shuffledPg.length + idx + 1),
+        type: 'esai',
+        text: origE.text,
+        rubrik: origE.rubrik || 'Jawaban lengkap, sistematis, dan sesuai konsep materi.',
+        max_score: origE.max_score || 6
+      }));
+
+      activeQuestions = [...shuffledPg, ...formattedEsai];
+      currentQIndex = 0;
+      answers = {};
+      showView('viewExam');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentQIndex];
+      const total = activeQuestions.length;
+
+      // Progress & Pill
+      document.getElementById('examProgressText').innerText = `Soal ${currentQIndex + 1} dari ${total}`;
+      
+      const pill = document.getElementById('examTypePill');
+      const numLabel = document.getElementById('qNumberLabel');
+      const optList = document.getElementById('optionList');
+      const esaiBox = document.getElementById('esaiContainer');
+      const esaiInput = document.getElementById('esaiInput');
+      const esaiCounter = document.getElementById('esaiCounter');
+
+      if (q.type === 'esai') {
+        pill.innerText = 'ESAI';
+        pill.className = 'exam-type-pill pill-esai';
+        numLabel.innerHTML = `<span>SOAL NO. ${currentQIndex + 1} (BAGIAN II: ESAI)</span>`;
+        optList.style.display = 'none';
+        esaiBox.style.display = 'flex';
+        
+        const userEsai = answers[currentQIndex] || '';
+        esaiInput.value = userEsai;
+        esaiCounter.innerText = `${userEsai.length} karakter`;
+      } else {
+        pill.innerText = 'PG';
+        pill.className = 'exam-type-pill pill-pg';
+        numLabel.innerHTML = `<span>SOAL NO. ${currentQIndex + 1} (BAGIAN I: PILIHAN GANDA)</span>`;
+        optList.style.display = 'flex';
+        esaiBox.style.display = 'none';
+
+        optList.innerHTML = '';
+        ['A', 'B', 'C', 'D', 'E'].forEach(optKey => {
+          if (!q.options[optKey]) return;
+
+          const isSelected = answers[currentQIndex] === optKey;
+          const item = document.createElement('div');
+          item.className = `option-item ${isSelected ? 'selected' : ''}`;
+          item.onclick = () => selectOption(optKey);
+
+          item.innerHTML = `
+            <div class="option-key">${optKey}</div>
+            <div class="option-content">${escapeHtml(q.options[optKey])}</div>
+          `;
+          optList.appendChild(item);
+        });
+      }
+
+      document.getElementById('qText').innerText = q.text;
+
+      // Bottom bar navigation buttons
+      document.getElementById('btnPrev').style.visibility = currentQIndex === 0 ? 'hidden' : 'visible';
+      
+      const btnNext = document.getElementById('btnNext');
+      if (currentQIndex === total - 1) {
+        btnNext.innerText = 'Review Jawaban →';
+      } else {
+        btnNext.innerText = 'Selanjutnya →';
+      }
+    }
+
+    function selectOption(optKey) {
+      answers[currentQIndex] = optKey;
+      renderQuestion();
+    }
+
+    function handleEsaiInput(el) {
+      answers[currentQIndex] = el.value;
+      document.getElementById('esaiCounter').innerText = `${el.value.length} karakter`;
+    }
+
+    function navigateQuestion(delta) {
+      const total = activeQuestions.length;
+      const target = currentQIndex + delta;
+
+      if (delta > 0 && currentQIndex === total - 1) {
+        openPreviewScreen();
+        return;
+      }
+
+      if (target >= 0 && target < total) {
+        currentQIndex = target;
+        renderQuestion();
+      }
+    }
+
+    function confirmExitExam() {
+      if (confirm('Keluar dari simulasi? Progres jawaban saat ini akan hilang.')) {
+        showView('viewCatalog');
+      }
+    }
+
+    /* ===== DRAWER NAVIGASI GRID ===== */
+    function openDrawer() {
+      const pgGrid = document.getElementById('drawerPgGrid');
+      const esaiGrid = document.getElementById('drawerEsaiGrid');
+      const esaiTitle = document.getElementById('drawerEsaiTitle');
+      
+      pgGrid.innerHTML = '';
+      esaiGrid.innerHTML = '';
+
+      let hasEsai = false;
+
+      activeQuestions.forEach((q, idx) => {
+        const isAnswered = !!(answers[idx] && answers[idx].trim());
+        const isCurrent = idx === currentQIndex;
+
+        const box = document.createElement('div');
+        box.className = `num-item ${isAnswered ? 'answered' : ''} ${isCurrent ? 'current' : ''} ${q.type === 'esai' ? 'esai-type' : ''}`;
+        
+        let choiceText = '-';
+        if (q.type === 'esai') {
+          choiceText = isAnswered ? 'Terisi' : 'Kosong';
+        } else {
+          choiceText = answers[idx] || '-';
+        }
+
+        box.innerHTML = `
+          <div>${idx + 1}</div>
+          <div class="num-item-choice">${choiceText}</div>
+        `;
+        box.onclick = () => {
+          currentQIndex = idx;
+          renderQuestion();
+          closeDrawer();
+        };
+
+        if (q.type === 'esai') {
+          hasEsai = true;
+          esaiGrid.appendChild(box);
+        } else {
+          pgGrid.appendChild(box);
+        }
+      });
+
+      esaiTitle.style.display = hasEsai ? 'block' : 'none';
+      esaiGrid.style.display = hasEsai ? 'grid' : 'none';
+
+      document.getElementById('gridDrawer').classList.add('active');
+    }
+
+    function closeDrawer(e) {
+      document.getElementById('gridDrawer').classList.remove('active');
+    }
+
+    /* ===== VIEW 3: PREVIEW SEBELUM SUBMIT ===== */
+    function openPreviewScreen() {
+      const total = activeQuestions.length;
+      let answeredPg = 0;
+      let answeredEsai = 0;
+      let emptyCount = 0;
+
+      activeQuestions.forEach((q, idx) => {
+        const val = answers[idx];
+        if (val && val.trim()) {
+          if (q.type === 'esai') answeredEsai++;
+          else answeredPg++;
+        } else {
+          emptyCount++;
+        }
+      });
+
+      document.getElementById('previewAnsweredCount').innerText = answeredPg;
+      document.getElementById('previewEsaiCount').innerText = answeredEsai;
+      document.getElementById('previewEmptyCount').innerText = emptyCount;
+
+      const list = document.getElementById('previewList');
+      list.innerHTML = '';
+
+      activeQuestions.forEach((q, idx) => {
+        const ans = answers[idx];
+        const hasValue = ans && ans.trim();
+        const card = document.createElement('div');
+        card.className = 'preview-card';
+        card.onclick = () => {
+          currentQIndex = idx;
+          showView('viewExam');
+          renderQuestion();
+        };
+
+        let badgeHtml = '';
+        if (q.type === 'esai') {
+          badgeHtml = `<div class="preview-ans-badge ${hasValue ? 'filled-esai' : 'empty'}">${hasValue ? 'Esai Terisi (' + ans.length + ' huruf)' : 'Belum Dijawab'}</div>`;
+        } else {
+          badgeHtml = `<div class="preview-ans-badge ${hasValue ? 'filled' : 'empty'}">${hasValue ? 'Pilihan: ' + ans : 'Kosong'}</div>`;
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="preview-q-num">Nomor ${idx + 1} &bull; ${q.type === 'esai' ? 'Esai' : 'PG'}</div>
+            <div class="preview-q-text">${escapeHtml(q.text)}</div>
+          </div>
+          ${badgeHtml}
+        `;
+        list.appendChild(card);
+      });
+
+      showView('viewPreview');
+    }
+
+    function backToExam() {
+      showView('viewExam');
+      renderQuestion();
+    }
+
+    /* ===== VIEW 4: HASIL EVALUASI ===== */
+    function submitFinalExam() {
+      let correctPg = 0;
+      let wrongPg = 0;
+      let emptyPg = 0;
+      let filledEsai = 0;
+
+      const detailList = document.getElementById('resDetailList');
+      detailList.innerHTML = '';
+
+      activeQuestions.forEach((q, idx) => {
+        const userAns = answers[idx] ? answers[idx].trim() : '';
+        const card = document.createElement('div');
+        card.className = 'detail-card';
+
+        if (q.type === 'esai') {
+          if (userAns) filledEsai++;
+          card.innerHTML = `
+            <div class="detail-header">
+              <span>SOAL NO. ${idx + 1} (BAGIAN II: ESAI)</span>
+              <span style="color: #c084fc;">MAKS. 6 POIN</span>
+            </div>
+            <div class="detail-q">${escapeHtml(q.text)}</div>
+            <div class="detail-ans ${userAns ? '' : 'wrong'}">
+              <strong>Jawaban Anda:</strong><br>
+              ${userAns ? escapeHtml(userAns).replace(/\n/g, '<br>') : '<em>(Tidak ada jawaban yang diisi)</em>'}
+            </div>
+            <div class="detail-ans rubrik">
+              <strong>Pedoman Rubrik / Kunci Konseptual:</strong><br>
+              ${escapeHtml(q.rubrik)}
+            </div>
+          `;
+        } else {
+          let statusText = '';
+          if (!userAns) {
+            emptyPg++;
+            statusText = `<span style="color: var(--text-dim);">TIDAK DIJAWAB</span>`;
+          } else if (userAns === q.key) {
+            correctPg++;
+            statusText = `<span style="color: #4ade80;">✓ BENAR (+2 Poin)</span>`;
+          } else {
+            wrongPg++;
+            statusText = `<span style="color: #f87171;">✗ SALAH</span>`;
+          }
+
+          card.innerHTML = `
+            <div class="detail-header">
+              <span>SOAL NO. ${idx + 1} (BAGIAN I: PG)</span>
+              <span>${statusText}</span>
+            </div>
+            <div class="detail-q">${escapeHtml(q.text)}</div>
+            <div class="detail-ans ${userAns === q.key ? 'correct' : (userAns ? 'wrong' : '')}">
+              <strong>Jawaban Anda:</strong> ${userAns ? userAns + '. ' + escapeHtml(q.options[userAns] || '') : '<em>Kosong</em>'}
+            </div>
+            ${userAns !== q.key ? `
+              <div class="detail-ans correct">
+                <strong>Kunci Jawaban Benar:</strong> ${q.key}. ${escapeHtml(q.options[q.key] || '')}
+              </div>
+            ` : ''}
+          `;
+        }
+        detailList.appendChild(card);
+      });
+
+      // Perhitungan Nilai PG: Jumlah Benar x 2 (Maks 70 Poin untuk 35 Soal)
+      const scorePg = correctPg * 2;
+      document.getElementById('resScore').innerText = `${scorePg} / 70`;
+      document.getElementById('resStats').innerHTML = `
+        PG Benar: <strong style="color: #4ade80;">${correctPg}</strong> &bull; 
+        PG Salah: <strong style="color: #f87171;">${wrongPg}</strong> &bull; 
+        PG Kosong: <strong style="color: var(--text-dim);">${emptyPg}</strong> &bull; 
+        Esai Terisi: <strong style="color: #c084fc;">${filledEsai} dari 5</strong>
+      `;
+
+      showView('viewResult');
+    }
+
+    function restartCurrent() {
+      answers = {};
+      startExam(currentExam.id);
+    }
+
+    function backToCatalog() {
+      renderCatalog();
+    }
+
+    /* ===== ADMIN MODAL: INPUT SOAL MANUAL ===== */
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.add('active');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.remove('active');
+      document.getElementById('adminTitle').value = '';
+      document.getElementById('adminRawText').value = '';
+    }
+
+    async function saveAdminExam() {
+      const title = document.getElementById('adminTitle').value.trim();
+      const rawText = document.getElementById('adminRawText').value.trim();
+
+      if (!title || !rawText) {
+        alert('Mohon lengkapi judul dan teks soal!');
+        return;
+      }
+
+      const blocks = rawText.split(/\n\s*(?=\d+[\.\)])/);
+      const parsedQuestions = [];
+
+      blocks.forEach((block, idx) => {
+        const lines = block.trim().split('\n').map(l => l.trim()).filter(l => l);
+        if (lines.length === 0) return;
+
+        let qText = lines[0].replace(/^\d+[\.\)]\s*/, '');
+        let options = {};
+        let key = '';
+
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i];
+          const optMatch = line.match(/^([A-E])[\.\)]\s*(.*)/i);
+          const keyMatch = line.match(/^(?:Kunci|Jawaban|Ans)\s*:\s*([A-E])/i);
+
+          if (optMatch) {
+            options[optMatch[1].toUpperCase()] = optMatch[2];
+          } else if (keyMatch) {
+            key = keyMatch[1].toUpperCase();
+          }
+        }
+
+        if (qText && Object.keys(options).length >= 2) {
+          parsedQuestions.push({
+            id: idx + 1,
+            type: 'pg',
+            text: qText,
+            options: options,
+            key: key || 'A'
+          });
+        }
+      });
+
+      if (parsedQuestions.length === 0) {
+        alert('Format soal tidak valid. Pastikan ada nomor dan opsi pilihan A-E.');
+        return;
+      }
+
+      const newExam = {
+        id: 'exam_' + Date.now(),
+        title: title,
+        questions: parsedQuestions
+      };
+
+      await dbSave(newExam);
+      closeAdminModal();
+      renderCatalog();
+    }
+  </script>
+</body>
+</html>
