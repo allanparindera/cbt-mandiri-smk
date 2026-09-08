@@ -16,7 +16,6 @@ const server = http.createServer((req, res) => {
     reqPath = '/index.html';
   }
 
-  // Safe path resolution
   const safePath = path.normalize(reqPath).replace(/^(\.\.[\/\])+/, '');
   const filePath = path.join(__dirname, safePath);
 
