@@ -1,8 +1,5 @@
 {
   "name": "cbt-mandiri-smk",
   "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "mkdir -p public && cp index.html exams_bank.json Simulasi_Ujian_Mandiri_PDF.html public/ 2>/dev/null || true"
-  }
+  "private": true
 }
