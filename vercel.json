@@ -1,4 +1,0 @@
-{
-  "buildCommand": "mkdir -p public && cp index.html exams_bank.json Simulasi_Ujian_Mandiri_PDF.html public/",
-  "outputDirectory": "public"
-}
