@@ -1986,5 +1986,999 @@
         "max_score": 6
       }
     ]
+  },
+  {
+    "id": "exam_asj_11_tkj_pts_ganjil",
+    "title": "Evaluasi Mandiri: Administrasi Sistem Jaringan (ASJ) - Kelas XI TKJ",
+    "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai Server Linux Debian, Layanan Jaringan, & Keamanan Terpusat.",
+    "questions": [
+      {
+        "id": 1,
+        "type": "pg",
+        "text": "Keunggulan utama menginstal sistem operasi Linux Server dalam mode teks (Command Line Interface / CLI) dibandingkan mode grafis (GUI) adalah...",
+        "options": {
+          "A": "Tampilan layar menjadi lebih menarik dan mudah dipahami oleh pengguna pemula",
+          "B": "Lebih hemat penggunaan memori RAM dan kinerja komputer server menjadi lebih ringan dan stabil",
+          "C": "Tidak memerlukan pengaturan alamat IP untuk terhubung ke jaringan internet",
+          "D": "Mendukung instalasi game online dan aplikasi multimedia resolusi tinggi",
+          "E": "Secara otomatis menghapus seluruh virus yang masuk ke dalam jaringan sekolah"
+        },
+        "key": "B"
+      },
+      {
+        "id": 2,
+        "type": "pg",
+        "text": "Perintah pada terminal Linux yang digunakan oleh teknisi jaringan untuk beralih masuk menjadi akun administrator tertinggi (superuser / root) adalah...",
+        "options": {
+          "A": "login admin",
+          "B": "su atau sudo su",
+          "C": "useradd root",
+          "D": "passwd super",
+          "E": "chmod root"
+        },
+        "key": "B"
+      },
+      {
+        "id": 3,
+        "type": "pg",
+        "text": "Nama file konfigurasi pada Linux Debian yang digunakan untuk mengatur alamat IP statik, netmask, dan gateway secara permanen adalah...",
+        "options": {
+          "A": "/etc/hosts",
+          "B": "/etc/resolv.conf",
+          "C": "/etc/network/interfaces",
+          "D": "/etc/hostname",
+          "E": "/etc/dhcp/dhclient.conf"
+        },
+        "key": "C"
+      },
+      {
+        "id": 4,
+        "type": "pg",
+        "text": "Perintah pada terminal Linux Debian 12 yang paling tepat digunakan untuk melihat daftar kartu jaringan beserta alamat IP yang sedang aktif adalah...",
+        "options": {
+          "A": "ping -a",
+          "B": "traceroute",
+          "C": "netstat -l",
+          "D": "show interface",
+          "E": "ip addr atau ip a"
+        },
+        "key": "E"
+      },
+      {
+        "id": 5,
+        "type": "pg",
+        "text": "Perintah pada Debian yang digunakan untuk menyinkronkan dan memperbarui daftar paket aplikasi dari server repositori internet sebelum melakukan instalasi adalah...",
+        "options": {
+          "A": "apt upgrade",
+          "B": "apt update",
+          "C": "apt install",
+          "D": "apt remove",
+          "E": "apt search"
+        },
+        "key": "B"
+      },
+      {
+        "id": 6,
+        "type": "pg",
+        "text": "File konfigurasi yang memuat daftar alamat URL server mirror repositori perangkat lunak pada Linux Debian terletak pada direktori...",
+        "options": {
+          "A": "/etc/apt/apt.conf",
+          "B": "/var/cache/apt/archives",
+          "C": "/usr/bin/sources.list",
+          "D": "/etc/apt/sources.list",
+          "E": "/etc/dpkg/dpkg.cfg"
+        },
+        "key": "D"
+      },
+      {
+        "id": 7,
+        "type": "pg",
+        "text": "Layanan remote access Secure Shell (SSH) secara default bekerja menggunakan nomor port jaringan...",
+        "options": {
+          "A": "Port 21",
+          "B": "Port 23",
+          "C": "Port 22",
+          "D": "Port 80",
+          "E": "Port 443"
+        },
+        "key": "C"
+      },
+      {
+        "id": 8,
+        "type": "pg",
+        "text": "Agar server lebih aman dari percobaan pembobolan kata sandi, baris konfigurasi pada file /etc/ssh/sshd_config yang digunakan untuk menolak login remote langsung akun root adalah...",
+        "options": {
+          "A": "AllowRootLogin yes",
+          "B": "PasswordAuthentication yes",
+          "C": "Port 22",
+          "D": "PermitRootLogin no",
+          "E": "X11Forwarding no"
+        },
+        "key": "D"
+      },
+      {
+        "id": 9,
+        "type": "pg",
+        "text": "Fungsi utama dari dipasangnya layanan DHCP Server pada jaringan komputer laboratorium sekolah adalah...",
+        "options": {
+          "A": "Mengubah arus listrik bolak-balik (AC) menjadi arus searah (DC) pada komputer",
+          "B": "Menerjemahkan nama domain website menjadi alamat IP numerik",
+          "C": "Menyimpan file dokumen dan laporan keuangan secara terpusat",
+          "D": "Mempercepat kecepatan kipas pendingin (cooler) pada processor server",
+          "E": "Memberikan alamat IP, subnet mask, dan gateway secara otomatis kepada komputer client"
+        },
+        "key": "E"
+      },
+      {
+        "id": 10,
+        "type": "pg",
+        "text": "File konfigurasi utama yang disunting untuk mengatur range alokasi IP address pada paket layanan isc-dhcp-server di Debian adalah...",
+        "options": {
+          "A": "/etc/default/isc-dhcp-server",
+          "B": "/var/lib/dhcp/dhcpd.leases",
+          "C": "/etc/network/interfaces",
+          "D": "/etc/dhcp/dhcpd.conf",
+          "E": "/etc/resolv.conf"
+        },
+        "key": "D"
+      },
+      {
+        "id": 11,
+        "type": "pg",
+        "text": "Fitur pada DHCP Server yang digunakan untuk mengunci alamat IP tertentu agar selalu diberikan kepada satu komputer atau printer tertentu berdasarkan MAC Address-nya dinamakan...",
+        "options": {
+          "A": "DHCP Reservation",
+          "B": "DHCP Relay",
+          "C": "DHCP Scope",
+          "D": "DHCP Snooping",
+          "E": "DHCP Lease Time"
+        },
+        "key": "A"
+      },
+      {
+        "id": 12,
+        "type": "pg",
+        "text": "Layanan pada router yang bertugas meneruskan paket permintaan DHCP dari komputer client di satu ruangan (VLAN) menuju ke server DHCP di ruangan lain disebut...",
+        "options": {
+          "A": "DNS Forwarder",
+          "B": "Default Gateway",
+          "C": "DHCP Relay Agent",
+          "D": "Proxy Server",
+          "E": "NAT Masquerade"
+        },
+        "key": "C"
+      },
+      {
+        "id": 13,
+        "type": "pg",
+        "text": "Fungsi utama dari layanan Domain Name System (DNS) dalam penggunaan jaringan internet sehari-hari adalah...",
+        "options": {
+          "A": "Menghubungkan dua kabel jaringan yang berbeda jenis",
+          "B": "Menyaring virus dan malware yang masuk melalui email",
+          "C": "Memberikan daya listrik cadangan saat terjadi pemadaman listrik PLN",
+          "D": "Menerjemahkan nama domain (seperti kartikax1.sch.id) menjadi alamat IP komputer",
+          "E": "Mengatur pembagian bandwidth kecepatan download setiap siswa"
+        },
+        "key": "D"
+      },
+      {
+        "id": 14,
+        "type": "pg",
+        "text": "Jenis Resource Record pada konfigurasi DNS Server yang berfungsi untuk memetakan nama domain ke alamat IPv4 adalah...",
+        "options": {
+          "A": "A Record",
+          "B": "MX Record",
+          "C": "NS Record",
+          "D": "PTR Record",
+          "E": "SOA Record"
+        },
+        "key": "A"
+      },
+      {
+        "id": 15,
+        "type": "pg",
+        "text": "Nama paket perangkat lunak server DNS yang paling umum dan standar digunakan pada sistem operasi Linux Debian adalah...",
+        "options": {
+          "A": "Apache2",
+          "B": "Vsftpd",
+          "C": "BIND9",
+          "D": "Samba",
+          "E": "OpenSSH"
+        },
+        "key": "C"
+      },
+      {
+        "id": 16,
+        "type": "pg",
+        "text": "Setelah administrator selesai mengubah konfigurasi pada DNS Server BIND9, perintah yang digunakan untuk memuat ulang dan menerapkan perubahan layanan tersebut adalah...",
+        "options": {
+          "A": "systemctl restart bind9",
+          "B": "service bind9 stop",
+          "C": "killall named",
+          "D": "reboot interfaces",
+          "E": "apt install bind9"
+        },
+        "key": "A"
+      },
+      {
+        "id": 17,
+        "type": "pg",
+        "text": "Jenis record DNS yang digunakan untuk membuat nama alias (nama lain) dari nama domain utama, misalnya membuat alamat 'www.kartikax1.sch.id' merujuk ke 'kartikax1.sch.id', adalah...",
+        "options": {
+          "A": "A Record",
+          "B": "PTR Record",
+          "C": "TXT Record",
+          "D": "CNAME Record",
+          "E": "MX Record"
+        },
+        "key": "D"
+      },
+      {
+        "id": 18,
+        "type": "pg",
+        "text": "Record DNS yang digunakan khusus pada Reverse Lookup Zone untuk menerjemahkan alamat IP kembali menjadi nama domain disebut...",
+        "options": {
+          "A": "SOA Record",
+          "B": "NS Record",
+          "C": "A Record",
+          "D": "PTR (Pointer) Record",
+          "E": "CNAME Record"
+        },
+        "key": "D"
+      },
+      {
+        "id": 19,
+        "type": "pg",
+        "text": "Layanan Web Server standar yang melayani protokol HTTP biasa bekerja menggunakan nomor port jaringan...",
+        "options": {
+          "A": "Port 21",
+          "B": "Port 22",
+          "C": "Port 53",
+          "D": "Port 443",
+          "E": "Port 80"
+        },
+        "key": "E"
+      },
+      {
+        "id": 20,
+        "type": "pg",
+        "text": "Lokasi direktori default pada Linux Debian yang digunakan untuk menyimpan file website (seperti index.html) pada web server Nginx adalah...",
+        "options": {
+          "A": "/var/www/html",
+          "B": "/etc/nginx/sites-available",
+          "C": "/home/user/public_html",
+          "D": "/usr/share/nginx",
+          "E": "/var/log/nginx"
+        },
+        "key": "A"
+      },
+      {
+        "id": 21,
+        "type": "pg",
+        "text": "Fitur pada web server yang memungkinkan sebuah komputer server menjalankan lebih dari satu situs website dengan nama domain berbeda (contoh: akl.sekolah.id dan mplb.sekolah.id) disebut...",
+        "options": {
+          "A": "Port Forwarding",
+          "B": "Virtual Host (Server Block)",
+          "C": "DHCP Relay",
+          "D": "DMZ (Demilitarized Zone)",
+          "E": "Proxy Server"
+        },
+        "key": "B"
+      },
+      {
+        "id": 22,
+        "type": "pg",
+        "text": "Baris perintah (direktif) di dalam konfigurasi Nginx yang digunakan untuk menentukan nama domain yang akan dilayani oleh server block tersebut adalah...",
+        "options": {
+          "A": "root",
+          "B": "index",
+          "C": "location",
+          "D": "server_name",
+          "E": "listen"
+        },
+        "key": "D"
+      },
+      {
+        "id": 23,
+        "type": "pg",
+        "text": "Layanan Web Server yang telah diamankan menggunakan sertifikat SSL/TLS (protokol HTTPS) secara standar bekerja pada nomor port...",
+        "options": {
+          "A": "Port 80",
+          "B": "Port 8080",
+          "C": "Port 443",
+          "D": "Port 21",
+          "E": "Port 25"
+        },
+        "key": "C"
+      },
+      {
+        "id": 24,
+        "type": "pg",
+        "text": "Protokol keamanan yang digunakan oleh HTTPS untuk mengenkripsi pengiriman data antara browser siswa dengan web server agar tidak dapat disadap dinamakan...",
+        "options": {
+          "A": "FTP",
+          "B": "Telnet",
+          "C": "SSL / TLS",
+          "D": "ICMP",
+          "E": "SNMP"
+        },
+        "key": "C"
+      },
+      {
+        "id": 25,
+        "type": "pg",
+        "text": "Layanan jaringan komputer yang dirancang khusus untuk mempermudah proses upload (unggah) dan download (unduh) file antar komputer client dan server adalah...",
+        "options": {
+          "A": "DNS Server",
+          "B": "FTP (File Transfer Protocol) Server",
+          "C": "DHCP Server",
+          "D": "NTP Server",
+          "E": "Proxy Server"
+        },
+        "key": "B"
+      },
+      {
+        "id": 26,
+        "type": "pg",
+        "text": "Nomor port default yang digunakan oleh protokol File Transfer Protocol (FTP) untuk menerima koneksi perintah dari aplikasi client (seperti FileZilla) adalah...",
+        "options": {
+          "A": "Port 21",
+          "B": "Port 22",
+          "C": "Port 23",
+          "D": "Port 25",
+          "E": "Port 53"
+        },
+        "key": "A"
+      },
+      {
+        "id": 27,
+        "type": "pg",
+        "text": "Aplikasi server pada Linux yang berfungsi membagikan (sharing) file dan folder agar dapat diakses dengan mudah oleh komputer bersistem operasi Windows dinamakan...",
+        "options": {
+          "A": "BIND9",
+          "B": "Nginx",
+          "C": "OpenSSH",
+          "D": "Postfix",
+          "E": "Samba Server"
+        },
+        "key": "E"
+      },
+      {
+        "id": 28,
+        "type": "pg",
+        "text": "Perintah pada terminal Linux yang digunakan untuk membuat atau mengubah kata sandi akun user agar bisa masuk ke folder sharing Samba adalah...",
+        "options": {
+          "A": "passwd user",
+          "B": "smbpasswd -a user",
+          "C": "useradd user",
+          "D": "chmod user",
+          "E": "samba config"
+        },
+        "key": "B"
+      },
+      {
+        "id": 29,
+        "type": "pg",
+        "text": "Layanan Database Server MariaDB atau MySQL secara default bekerja dan mendengarkan koneksi pada port jaringan...",
+        "options": {
+          "A": "Port 80",
+          "B": "Port 443",
+          "C": "Port 21",
+          "D": "Port 8080",
+          "E": "Port 3306"
+        },
+        "key": "E"
+      },
+      {
+        "id": 30,
+        "type": "pg",
+        "text": "Perintah dasar SQL yang diketikkan di dalam prompt MariaDB untuk melihat seluruh daftar database yang ada pada server adalah...",
+        "options": {
+          "A": "SHOW DATABASES;",
+          "B": "SELECT * FROM tables;",
+          "C": "OPEN DATABASE;",
+          "D": "LIST ALL DB;",
+          "E": "DISPLAY DATABASE;"
+        },
+        "key": "A"
+      },
+      {
+        "id": 31,
+        "type": "pg",
+        "text": "Dalam istilah teknologi web, paket sistem 'LEMP Stack' tersusun atas kombinasi perangkat lunak utama yaitu...",
+        "options": {
+          "A": "Linux, Engine-X (Nginx), MariaDB, PHP",
+          "B": "Linux, Email, Modem, Python",
+          "C": "LAN, Ethernet, Modem, Protocol",
+          "D": "Linux, Excel, Microsoft Word, PowerPoint",
+          "E": "Localhost, Explorer, Media, Perl"
+        },
+        "key": "A"
+      },
+      {
+        "id": 32,
+        "type": "pg",
+        "text": "Layanan pendukung pada web server Nginx yang bertugas mengeksekusi dan memproses kode program dinamis berbahasa PHP adalah...",
+        "options": {
+          "A": "MariaDB Server",
+          "B": "BIND9 DNS",
+          "C": "ISC DHCP Server",
+          "D": "vsftpd",
+          "E": "PHP-FPM (FastCGI Process Manager)"
+        },
+        "key": "E"
+      },
+      {
+        "id": 33,
+        "type": "pg",
+        "text": "Perintah pada sistem Linux yang digunakan oleh administrator untuk membuat salinan cadangan (backup) database MariaDB ke dalam file berkas .sql adalah...",
+        "options": {
+          "A": "mysql-copy",
+          "B": "mysqldump",
+          "C": "database-save",
+          "D": "tar-db",
+          "E": "backup-sql"
+        },
+        "key": "B"
+      },
+      {
+        "id": 34,
+        "type": "pg",
+        "text": "Perintah Linux yang tepat untuk membuat sebuah file arsip terkompresi berekstensi .tar.gz dari folder website /var/www/html adalah...",
+        "options": {
+          "A": "unzip /var/www/html",
+          "B": "zip -x web.zip /var/www/html",
+          "C": "tar -czvf backup_web.tar.gz /var/www/html",
+          "D": "gzip -d /var/www/html",
+          "E": "cat /var/www/html > backup.txt"
+        },
+        "key": "C"
+      },
+      {
+        "id": 35,
+        "type": "pg",
+        "text": "Perintah pada terminal Linux yang digunakan untuk membuka dan menyunting file jadwal tugas otomatis (Cron Job) adalah...",
+        "options": {
+          "A": "nano /etc/timer",
+          "B": "cron start",
+          "C": "taskmgr",
+          "D": "systemctl cron",
+          "E": "crontab -e"
+        },
+        "key": "E"
+      },
+      {
+        "id": 36,
+        "type": "esai",
+        "text": "Jelaskan fungsi utama dari file konfigurasi /etc/network/interfaces pada sistem operasi Linux Debian!",
+        "rubrik": "Berfungsi untuk mengatur konfigurasi kartu antarmuka jaringan (NIC) secara permanen, seperti menentukan mode pengalamatan IP (statik atau otomatis/DHCP), netmask, dan default gateway.",
+        "max_score": 6
+      },
+      {
+        "id": 37,
+        "type": "esai",
+        "text": "Jelaskan perbedaan fungsi antara DHCP Server dengan DHCP Client!",
+        "rubrik": "DHCP Server berfungsi membagikan atau meminjamkan konfigurasi IP Address secara otomatis ke komputer client. Sedangkan DHCP Client adalah komputer yang meminta dan menerima konfigurasi IP dari DHCP Server.",
+        "max_score": 6
+      },
+      {
+        "id": 38,
+        "type": "esai",
+        "text": "Jelaskan perbedaan fungsi antara A Record dengan CNAME Record pada konfigurasi DNS Server!",
+        "rubrik": "A Record berfungsi mengarahkan nama domain secara langsung ke alamat IPv4 fisik server. Sedangkan CNAME Record berfungsi membuat nama alias (nama samaran) yang diarahkan ke domain lain yang sudah ada.",
+        "max_score": 6
+      },
+      {
+        "id": 39,
+        "type": "esai",
+        "text": "Sebutkan nomor port standar untuk protokol HTTP dan HTTPS, serta jelaskan mengapa HTTPS lebih aman!",
+        "rubrik": "HTTP bekerja pada Port 80, sedangkan HTTPS bekerja pada Port 443. HTTPS lebih aman karena seluruh data yang dikirim dienkripsi menggunakan sertifikat SSL/TLS sehingga tidak dapat disadap (anti-sniffing).",
+        "max_score": 6
+      },
+      {
+        "id": 40,
+        "type": "esai",
+        "text": "Jelaskan fungsi dari aplikasi Samba Server pada sistem operasi Linux!",
+        "rubrik": "Berfungsi untuk layanan berbagi file (file sharing) dan printer antar sistem operasi yang berbeda, khususnya agar komputer client berbasis Windows dapat mengakses dan menyimpan file di server Linux.",
+        "max_score": 6
+      }
+    ]
+  },
+  {
+    "id": "exam_dasar_tjkt_10_kewirausahaan",
+    "title": "Evaluasi Mandiri: Dasar-Dasar TJKT (Kewirausahaan) - Kelas X TKJ",
+    "desc": "35 Soal Pilihan Ganda (A-E) + 5 Soal Esai Job Profile TJKT, Budaya 5R, Etika Bisnis IT, & Model Bisnis Kanvas (BMC).",
+    "questions": [
+      {
+        "id": 1,
+        "type": "pg",
+        "text": "Istilah 'Technopreneurship' dalam bidang kejuruan Teknik Jaringan Komputer dan Telekomunikasi merujuk pada...",
+        "options": {
+          "A": "Profesi yang khusus bertugas memprogram kode game online tanpa memikirkan keuntungan bisnis",
+          "B": "Kewirausahaan yang memanfaatkan teknologi informasi dan komunikasi sebagai inti produk atau layanan jasanya",
+          "C": "Kegiatan membeli barang elektronik impor tanpa membayar pajak legal",
+          "D": "Kegiatan merakit komputer bekas untuk digunakan sendiri di rumah",
+          "E": "Pekerjaan memasang kabel telepon analog tanpa menggunakan sambungan internet"
+        },
+        "key": "B"
+      },
+      {
+        "id": 2,
+        "type": "pg",
+        "text": "Menerapkan budaya kerja 5R (Ringkas, Rapi, Resik, Rawat, Rajin) pada bengkel komputer memiliki tujuan utama yaitu...",
+        "options": {
+          "A": "Menghabiskan anggaran belanja sekolah sebelum akhir semester",
+          "B": "Mengganti seluruh peralatan kerja manual dengan robot otomatis buatan luar negeri",
+          "C": "Menciptakan lingkungan kerja yang aman, tertib, bersih, dan efisien saat melayani perbaikan komputer",
+          "D": "Membatasi siswa agar tidak boleh menyentuh perangkat komputer server",
+          "E": "Menambah waktu lembur teknisi hingga malam hari tanpa biaya lembur"
+        },
+        "key": "C"
+      },
+      {
+        "id": 3,
+        "type": "pg",
+        "text": "Profesi di bidang TJKT yang bertugas melakukan instalasi kabel jaringan, perakitan konektor RJ-45, serta perawatan fisik perangkat switch dan router disebut...",
+        "options": {
+          "A": "Database Administrator",
+          "B": "Network Technician (Teknisi Jaringan)",
+          "C": "UI/UX Designer",
+          "D": "Mobile App Developer",
+          "E": "Content Creator"
+        },
+        "key": "B"
+      },
+      {
+        "id": 4,
+        "type": "pg",
+        "text": "Tugas utama dari seorang System Administrator (SysAdmin) pada sebuah instansi kantor atau sekolah adalah...",
+        "options": {
+          "A": "Menjual suku cadang komputer bekas di marketplace online",
+          "B": "Mendesain gambar banner spanduk dan brosur promosi cetak",
+          "C": "Mengetik surat undangan rapat orang tua siswa setiap bulan",
+          "D": "Memasang jaringan pipa air dan pendingin udara ruangan",
+          "E": "Mengelola, mengonfigurasi, dan memelihara keandalan sistem operasi server serta layanan jaringan"
+        },
+        "key": "E"
+      },
+      {
+        "id": 5,
+        "type": "pg",
+        "text": "Salah satu sertifikasi kompetensi industri internasional yang sangat diakui untuk membuktikan keahlian teknisi pada perangkat router Mikrotik adalah...",
+        "options": {
+          "A": "MOS (Microsoft Office Specialist)",
+          "B": "MTCNA (MikroTik Certified Network Associate)",
+          "C": "Adobe Certified Professional",
+          "D": "Google Ads Certification",
+          "E": "CompTIA PenTest+"
+        },
+        "key": "B"
+      },
+      {
+        "id": 6,
+        "type": "pg",
+        "text": "Ketika seorang teknisi komputer sedang memperbaiki laptop pelanggan dan melihat foto atau dokumen pribadi, tindakan yang wajib dilakukan sesuai kode etik profesi adalah...",
+        "options": {
+          "A": "Menyalin foto tersebut ke dalam flashdisk pribadi sebagai koleksi",
+          "B": "Mengunggah dokumen pelanggan ke media sosial agar menjadi viral",
+          "C": "Mengubah nama file pelanggan menjadi nama samaran tanpa izin",
+          "D": "Menghapus seluruh file pribadi pelanggan tanpa konfirmasi terlebih dahulu",
+          "E": "Menjaga kerahasiaan data tersebut sepenuhnya dan tidak membuka, menyalin, atau menyebarkannya"
+        },
+        "key": "E"
+      },
+      {
+        "id": 7,
+        "type": "pg",
+        "text": "Tindakan mengakses komputer atau sistem jaringan milik orang lain tanpa izin (akses ilegal) untuk mencuri data diatur dan dilarang dalam regulasi...",
+        "options": {
+          "A": "Undang-Undang Informasi dan Transaksi Elektronik (UU ITE)",
+          "B": "Undang-Undang Ketenagakerjaan",
+          "C": "Undang-Undang Hak Asasi Manusia",
+          "D": "Peraturan Menteri Keuangan",
+          "E": "Standar Akuntansi Keuangan"
+        },
+        "key": "A"
+      },
+      {
+        "id": 8,
+        "type": "pg",
+        "text": "Salah satu prinsip Keselamatan dan Kesehatan Kerja (K3LH) mengenai posisi duduk yang benar saat bekerja di depan komputer dalam durasi lama adalah...",
+        "options": {
+          "A": "Layar monitor diletakkan di bawah lantai dengan jarak 10 cm",
+          "B": "Duduk membungkuk sangat dekat dengan layar monitor tanpa sandaran",
+          "C": "Menggunakan penerangan lampu yang mati total agar layar terlihat lebih terang",
+          "D": "Posisi punggung tegak bersandar, kaki menapak rata di lantai, dan pandangan mata sejajar atas monitor",
+          "E": "Bekerja terus menerus selama 10 jam tanpa istirahat"
+        },
+        "key": "D"
+      },
+      {
+        "id": 9,
+        "type": "pg",
+        "text": "Peralatan keselamatan kerja yang wajib digunakan teknisi saat melakukan pemasangan kabel jaringan atau antena radio di atas tiang/tower adalah...",
+        "options": {
+          "A": "Sabuk pengaman (safety harness), helm pengaman (safety helmet), dan sepatu safety",
+          "B": "Sandal jepit karet dan kacamata hitam gaya",
+          "C": "Jas hujan plastik dan sarung tangan wol tipis",
+          "D": "Topi kain dan tas punggung besar",
+          "E": "Masker kain motif dan jaket parasut kasual"
+        },
+        "key": "A"
+      },
+      {
+        "id": 10,
+        "type": "pg",
+        "text": "Sikap wirausahawan yang selalu menepati janji garansi servis dan jujur menyebutkan kerusakan suku cadang kepada konsumen mencerminkan penguatan Nilai Kartika (5NK)...",
+        "options": {
+          "A": "Cinta Tanah Air",
+          "B": "Cerdas",
+          "C": "Disiplin",
+          "D": "Berbudi Luhur",
+          "E": "Terampil"
+        },
+        "key": "D"
+      },
+      {
+        "id": 11,
+        "type": "pg",
+        "text": "Peluang usaha jasa di bidang TJKT yang paling relevan dan dibutuhkan oleh sekolah atau perkantoran ruko di lingkungan sekitar adalah...",
+        "options": {
+          "A": "Jasa penambangan batu bara dan bahan mineral bumi",
+          "B": "Jasa perbaikan mesin kapal laut dan turbin pesawat terbang",
+          "C": "Jasa perawatan berkala laboratorium komputer, perakitan kabel LAN, dan konfigurasi WiFi kantor",
+          "D": "Usaha jual beli pakaian tradisional musiman",
+          "E": "Jasa pembuatan taman bermain air anak-anak"
+        },
+        "key": "C"
+      },
+      {
+        "id": 12,
+        "type": "pg",
+        "text": "Dalam menjalankan usaha hotspot voucher atau penyediaan internet warga (RT/RW-Net), syarat utama agar usaha tersebut legal dan tidak melanggar hukum adalah...",
+        "options": {
+          "A": "Menggunakan kabel jaringan bekas dari tiang PLN tanpa izin",
+          "B": "Bekerja sama resmi sebagai agen / reseller dari Internet Service Provider (ISP) berizin resmi Kominfo",
+          "C": "Membobol password WiFi milik tetangga secara diam-diam menggunakan aplikasi",
+          "D": "Menjual akses internet tanpa menggunakan router manajemen",
+          "E": "Memasang pemancar sinyal radio ilegal yang mengganggu frekuensi penerbangan"
+        },
+        "key": "B"
+      },
+      {
+        "id": 13,
+        "type": "pg",
+        "text": "Contoh sinergi kebutuhan teknologi jaringan yang dapat disediakan teknisi TJKT untuk mendukung kegiatan kerja jurusan Akuntansi (AKL) adalah...",
+        "options": {
+          "A": "Memasang kabel audio sound system untuk latihan marching band",
+          "B": "Menggambar motif batik pada seragam sekolah",
+          "C": "Membuat instalasi saluran air bersih pada ruang praktikum memasak",
+          "D": "Menjual makanan ringan di kantin sekolah saat istirahat",
+          "E": "Membangun jaringan file sharing lokal (Samba) yang aman untuk transfer laporan keuangan dan database kas"
+        },
+        "key": "E"
+      },
+      {
+        "id": 14,
+        "type": "pg",
+        "text": "Solusi infrastruktur teknologi yang tepat dirancang siswa TJKT untuk membantu divisi Manajemen Perkantoran dan Layanan Bisnis (MPLB) dalam hal persuratan adalah...",
+        "options": {
+          "A": "Mengirimkan surat fisik menggunakan kurir sepeda motor",
+          "B": "Menyimpan berkas surat di dalam kardus bekas di gudang sekolah",
+          "C": "Mencetak surat pada kertas karton tebal warna-warni",
+          "D": "Menyediakan server email intranet lokal dan sistem penyimpanan cloud arsip surat digital",
+          "E": "Membuang seluruh surat arsip lama yang berusia di atas 1 bulan"
+        },
+        "key": "D"
+      },
+      {
+        "id": 15,
+        "type": "pg",
+        "text": "Manfaat dari penggunaan alat bantu digital Google Trends bagi wirausahawan pemula di bidang TJKT adalah...",
+        "options": {
+          "A": "Memperbaiki komponen hardware monitor yang retak secara otomatis",
+          "B": "Mengunduh film bioskop secara gratis dengan kecepatan tinggi",
+          "C": "Membayar tagihan listrik PLN secara otomatis setiap bulan",
+          "D": "Mengatur rotasi kipas pendingin casing komputer",
+          "E": "Mengetahui tren kata kunci pencarian yang sedang populer dan kebutuhan jasa IT yang banyak dicari konsumen di suatu wilayah"
+        },
+        "key": "E"
+      },
+      {
+        "id": 16,
+        "type": "pg",
+        "text": "Tujuan utama dari kegiatan Pitching (presentasi singkat rencana usaha) di hadapan calon investor atau pelanggan adalah...",
+        "options": {
+          "A": "Membaca seluruh proposal setebal 100 halaman kata demi kata tanpa jeda",
+          "B": "Menjelek-jelekkan usaha milik rekan sekelas di depan umum",
+          "C": "Menyampaikan ide produk/jasa secara ringkas, menarik, dan meyakinkan agar calon klien bersedia membeli atau bekerja sama",
+          "D": "Menghafal seluruh daftar komponen perangkat keras komputer tanpa memahami fungsinya",
+          "E": "Meminta sumbangan dana tanpa menjelaskan rencana bisnis yang akan dijalankan"
+        },
+        "key": "C"
+      },
+      {
+        "id": 17,
+        "type": "pg",
+        "text": "Dalam analisis SWOT untuk usaha jasa servis komputer pemula, faktor internal seperti 'kurangnya modal untuk membeli alat ukur canggih' tergolong ke dalam kategori...",
+        "options": {
+          "A": "Strength (Kekuatan)",
+          "B": "Opportunity (Peluang)",
+          "C": "Weakness (Kelemahan)",
+          "D": "Threat (Ancaman)",
+          "E": "Target (Sasaran)"
+        },
+        "key": "C"
+      },
+      {
+        "id": 18,
+        "type": "pg",
+        "text": "Fenomena 'banyak warga dan kantor ruko di sekitar sekolah yang mengeluhkan koneksi WiFi lambat namun tidak ada teknisi panggilan terdekat' tergolong ke dalam kategori...",
+        "options": {
+          "A": "Strength (Kekuatan)",
+          "B": "Weakness (Kelemahan)",
+          "C": "Threat (Ancaman)",
+          "D": "Risk (Risiko)",
+          "E": "Opportunity (Peluang)"
+        },
+        "key": "E"
+      },
+      {
+        "id": 19,
+        "type": "pg",
+        "text": "Pada bagan Model Bisnis Kanvas (BMC), blok yang mendefinisikan kelompok masyarakat atau pihak yang menjadi target pembeli jasa kita disebut...",
+        "options": {
+          "A": "Key Partners",
+          "B": "Customer Segments (Segmen Pelanggan)",
+          "C": "Cost Structure",
+          "D": "Key Activities",
+          "E": "Revenue Streams"
+        },
+        "key": "B"
+      },
+      {
+        "id": 20,
+        "type": "pg",
+        "text": "Blok pada Model Bisnis Kanvas (BMC) yang memuat alasan mengapa pelanggan harus memilih jasa teknisi kita dibanding pesaing (nilai keunggulan layanan) adalah...",
+        "options": {
+          "A": "Key Resources",
+          "B": "Channels",
+          "C": "Customer Relationships",
+          "D": "Value Propositions (Proposisi Nilai)",
+          "E": "Cost Structure"
+        },
+        "key": "D"
+      },
+      {
+        "id": 21,
+        "type": "pg",
+        "text": "Contoh sarana atau saluran (Channels) yang dapat digunakan oleh usaha jasa TJKT untuk menjangkau dan mempromosikan jasa kepada calon konsumen adalah...",
+        "options": {
+          "A": "Kabel power yang terhubung ke stop kontak listrik",
+          "B": "Obeng kembang dan tang pemotong kawat",
+          "C": "Status WhatsApp, akun Instagram bisnis, dan brosur penawaran jasa di mading sekolah",
+          "D": "Konektor RJ-45 yang terpasang pada kabel UTP",
+          "E": "Memori RAM yang terpasang di motherboard komputer"
+        },
+        "key": "C"
+      },
+      {
+        "id": 22,
+        "type": "pg",
+        "text": "Contoh sumber pendapatan (Revenue Streams) utama bagi kelompok wirausaha jasa instalasi jaringan komputer SMK adalah...",
+        "options": {
+          "A": "Membayar uang sewa ruang bengkel kerja kepada sekolah",
+          "B": "Biaya ongkos jasa per titik penarikan kabel LAN dan biaya setting konfigurasi router WiFi",
+          "C": "Membeli tang crimping dan LAN tester baru di toko komputer",
+          "D": "Membeli bensin untuk sepeda motor operasional teknisi",
+          "E": "Biaya langganan paket data internet bulanan"
+        },
+        "key": "B"
+      },
+      {
+        "id": 23,
+        "type": "pg",
+        "text": "Peralatan penting seperti tang crimping, LAN cable tester, obeng set presisi, dan laptop uji pada kanvas model bisnis tergolong ke dalam blok...",
+        "options": {
+          "A": "Value Propositions",
+          "B": "Customer Relationships",
+          "C": "Revenue Streams",
+          "D": "Customer Segments",
+          "E": "Key Resources (Sumber Daya Kunci)"
+        },
+        "key": "E"
+      },
+      {
+        "id": 24,
+        "type": "pg",
+        "text": "Pihak eksternal seperti toko distributor kabel jaringan grosir dan vendor penyedia konektor RJ-45 dalam kanvas BMC ditempatkan pada blok...",
+        "options": {
+          "A": "Cost Structure",
+          "B": "Channels",
+          "C": "Key Activities",
+          "D": "Key Partners (Mitra Kunci)",
+          "E": "Value Propositions"
+        },
+        "key": "D"
+      },
+      {
+        "id": 25,
+        "type": "pg",
+        "text": "Pengeluaran modal di awal usaha untuk membeli aset peralatan kerja yang tahan lama (seperti tang crimping, obeng, dan tester) disebut dengan istilah...",
+        "options": {
+          "A": "Capex (Capital Expenditure)",
+          "B": "Net Profit",
+          "C": "Opex (Operational Expenditure)",
+          "D": "Gross Revenue",
+          "E": "Return on Investment"
+        },
+        "key": "A"
+      },
+      {
+        "id": 26,
+        "type": "pg",
+        "text": "Contoh biaya operasional harian/bulanan (Opex) yang dikeluarkan saat menjalankan usaha jasa panggilan teknisi komputer adalah...",
+        "options": {
+          "A": "Biaya bahan bakar minyak (bensin) transportasi ke rumah klien dan kuota internet komunikasi",
+          "B": "Pembelian satu unit mobil operasional kantor baru seharga 300 juta",
+          "C": "Pembelian gedung ruko tempat kantor cabang utama",
+          "D": "Pembelian mesin server mainframe kapasitas 100 TB",
+          "E": "Pembelian lisensi software komersial seumur hidup"
+        },
+        "key": "A"
+      },
+      {
+        "id": 27,
+        "type": "pg",
+        "text": "Harga Pokok Penjualan (HPP) pada usaha jasa instalasi jaringan komputer dihitung berdasarkan akumulasi dari...",
+        "options": {
+          "A": "Uang saku siswa per hari dikalikan jumlah anggota kelompok",
+          "B": "Total seluruh uang kas yang ada di dalam rekening bank sekolah",
+          "C": "Total biaya bahan habis pakai (konektor, isolasi, kabel ties) ditambah biaya operasional teknisi per pekerjaan",
+          "D": "Nilai rapor siswa pada mata pelajaran kejuruan",
+          "E": "Jumlah komputer yang tidak terpakai di gudang sekolah"
+        },
+        "key": "C"
+      },
+      {
+        "id": 28,
+        "type": "pg",
+        "text": "Jika biaya bahan dan bensin untuk memasang 1 titik kabel LAN adalah Rp 15.000 dan tim menginginkan keuntungan bersih Rp 20.000 per titik, maka tarif jasa yang ditawarkan ke konsumen adalah...",
+        "options": {
+          "A": "Rp 35.000",
+          "B": "Rp 15.000",
+          "C": "Rp 20.000",
+          "D": "Rp 50.000",
+          "E": "Rp 100.000"
+        },
+        "key": "A"
+      },
+      {
+        "id": 29,
+        "type": "pg",
+        "text": "Manfaat utama dibuatnya dokumen Standar Operasional Prosedur (SOP) alur penerimaan servis komputer bagi pelanggan adalah...",
+        "options": {
+          "A": "Membuat proses perbaikan menjadi sangat lama dan berbelit-belit",
+          "B": "Membebaskan teknisi dari tanggung jawab apabila komputer pelanggan rusak total",
+          "C": "Memaksa pelanggan membeli komputer baru di toko teknisi",
+          "D": "Memberikan kepastian alur kerja yang jelas, transparan, dan menjamin mutu hasil perbaikan unit pelanggan",
+          "E": "Menghilangkan kewajiban memberikan nota tanda terima servis"
+        },
+        "key": "D"
+      },
+      {
+        "id": 30,
+        "type": "pg",
+        "text": "Kesepakatan tertulis antara penyedia jasa teknisi dengan pelanggan mengenai batas waktu penyelesaian servis dan jaminan garansi dinamakan...",
+        "options": {
+          "A": "Nota Bon Kontan",
+          "B": "Surat Perintah Lembur",
+          "C": "Kartu Keluarga",
+          "D": "Berita Acara Rapat",
+          "E": "Service Level Agreement (SLA)"
+        },
+        "key": "E"
+      },
+      {
+        "id": 31,
+        "type": "pg",
+        "text": "Pada proposal rencana usaha jasa IT, bagian yang menjelaskan latar belakang masalah mengapa jasa tersebut dibutuhkan dan solusi yang ditawarkan berada pada bab...",
+        "options": {
+          "A": "Laporan Pertanggungjawaban Akhir",
+          "B": "Lampiran Bukti Kuitansi Pembayaran",
+          "C": "Surat Pengunduran Diri Anggota",
+          "D": "Pendahuluan / Ringkasan Eksekutif",
+          "E": "Biodata Seluruh Pelanggan"
+        },
+        "key": "D"
+      },
+      {
+        "id": 32,
+        "type": "pg",
+        "text": "Bagian dari proposal usaha yang memuat rincian kebutuhan modal awal, perkiraan harga jual jasa, dan proyeksi keuntungan yang akan didapat disebut...",
+        "options": {
+          "A": "Rencana Anggaran Biaya dan Analisis Finansial",
+          "B": "Struktur Organisasi Tim",
+          "C": "Desain Logo dan Brosur",
+          "D": "Denah Lokasi Ruang Lab",
+          "E": "Tata Tertib Karyawan"
+        },
+        "key": "A"
+      },
+      {
+        "id": 33,
+        "type": "pg",
+        "text": "Ketika calon pelanggan merasa harga penawaran jasa penarikan kabel LAN terlalu mahal, sikap negosiasi yang paling tepat dan profesional dilakukan oleh teknisi adalah...",
+        "options": {
+          "A": "Menjelaskan rincian keunggulan mutu pengerjaan, kualitas bahan konektor, dan garansi servis 30 hari yang didapatkan pelanggan",
+          "B": "Langsung membatalkan pesanan dan memarahi pelanggan",
+          "C": "Menurunkan harga hingga rugi tanpa menghitung biaya bahan",
+          "D": "Memasang kabel berkualitas buruk yang mudah putus tanpa memberi tahu pelanggan",
+          "E": "Menyuruh pelanggan memasang kabel jaringan sendiri di rumahnya"
+        },
+        "key": "A"
+      },
+      {
+        "id": 34,
+        "type": "pg",
+        "text": "Dokumen resmi tertulis yang dikirimkan penyedia jasa kepada calon pelanggan sebelum pekerjaan dimulai yang berisi rincian item pekerjaan dan nominal biaya disebut...",
+        "options": {
+          "A": "Faktur Pajak",
+          "B": "Kuitansi Lunas",
+          "C": "Surat Penawaran Harga (SPH)",
+          "D": "Surat Peringatan",
+          "E": "Sertifikat Keahlian"
+        },
+        "key": "C"
+      },
+      {
+        "id": 35,
+        "type": "pg",
+        "text": "Indikator utama bahwa sebuah rencana usaha jasa TJKT dinilai layak untuk mulai dijalankan dan ditawarkan kepada konsumen sekolah adalah...",
+        "options": {
+          "A": "Memiliki logo usaha yang sangat rumit dan penuh warna",
+          "B": "Tim menguasai keterampilan teknis yang ditawarkan, memiliki SOP kerja yang jelas, dan perhitungan modal serta tarif jasanya realistis",
+          "C": "Seluruh anggota tim memiliki laptop gaming mahal",
+          "D": "Menolak menerima komplain dari pelanggan yang tidak puas",
+          "E": "Memiliki modal ratusan juta rupiah sebelum memulai usaha"
+        },
+        "key": "B"
+      },
+      {
+        "id": 36,
+        "type": "esai",
+        "text": "Jelaskan apa yang dimaksud dengan Technopreneurship di bidang Teknik Jaringan Komputer dan Telekomunikasi!",
+        "rubrik": "Technopreneurship adalah kegiatan wirausaha yang memanfaatkan keahlian teknologi informasi dan jaringan komputer untuk menciptakan produk atau layanan jasa yang bernilai jual dan solutif bagi masyarakat.",
+        "max_score": 6
+      },
+      {
+        "id": 37,
+        "type": "esai",
+        "text": "Sebutkan 3 jenis profesi kerja di bidang TJKT yang Anda ketahui beserta tugas pokok utamanya!",
+        "rubrik": "1. Network Technician: Memasang, menyambung kabel (crimping/splicing), dan merawat perangkat fisik jaringan.\n2. System Administrator (SysAdmin): Mengelola sistem operasi server, database, dan memelihara keamanan jaringan.\n3. Technical Support / Field Support: Memperbaiki kerusakan hardware/software komputer dan melayani keluhan teknis pengguna.",
+        "max_score": 6
+      },
+      {
+        "id": 38,
+        "type": "esai",
+        "text": "Mengapa seorang teknisi komputer wajib mematuhi kode etik profesi dan dilarang membuka atau menyalin data pribadi milik pelanggan?",
+        "rubrik": "Karena data pelanggan bersifat rahasia (confidential) dan dilindungi oleh etika profesi serta hukum UU ITE. Membuka atau menyalin data tanpa izin melanggar nilai Berbudi Luhur, merusak kepercayaan pelanggan, dan dapat dituntut secara hukum.",
+        "max_score": 6
+      },
+      {
+        "id": 39,
+        "type": "esai",
+        "text": "Jelaskan apa yang dimaksud dengan Value Propositions (Proposisi Nilai) pada Model Bisnis Kanvas (BMC)!",
+        "rubrik": "Value Propositions adalah nilai keunggulan atau manfaat unik dari produk/jasa yang ditawarkan sehingga menjadi alasan utama pelanggan memilih layanan kita dibanding kompetitor (contoh: pengerjaan rapi, bergaransi, dan tarif transparan).",
+        "max_score": 6
+      },
+      {
+        "id": 40,
+        "type": "esai",
+        "text": "Jelaskan perbedaan antara biaya modal awal (Capex) dengan biaya operasional (Opex) pada usaha jasa servis komputer!",
+        "rubrik": "Capex (Capital Expenditure) adalah biaya modal di awal untuk membeli aset peralatan kerja yang tahan lama (seperti tang crimping, tester, obeng). Sedangkan Opex (Operational Expenditure) adalah biaya rutin operasional sehari-hari (seperti bensin transportasi dan kuota internet).",
+        "max_score": 6
+      }
+    ]
   }
 ]
